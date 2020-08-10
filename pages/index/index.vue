@@ -23,6 +23,7 @@
 	import uniBottomNav from "@/components/uni-bottom-nav/uni-bottom-nav.vue"
 
 	export default {
+
 		data() {
 			return {
 				href: 'https://uniapp.dcloud.io/component/README?id=uniui'
