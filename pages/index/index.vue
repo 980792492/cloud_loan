@@ -30,6 +30,7 @@
 			}
 		},
 		components: {
+
 			uniBottomNav,
 			uniCard
 		},
