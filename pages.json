@@ -42,6 +42,93 @@
             "style" : {
 				"navigationBarTitleText": "基础信息"
 			}
+        },
+		{
+		    "path" : "pages/borrowingProcess/index",
+		    "style" : {
+				// "navigationBarTitleText": "云好贷"
+				"navigationStyle": "custom"
+			}
+		}
+        ,{
+            "path" : "pages/borrowingProcess/loaning",
+            "style" : {
+				"navigationBarTitleText": "确认借款",
+				 "navigationBarTextStyle": "black",
+				 "navigationBarBackgroundColor":"white"
+			}
+        }
+        ,{
+            "path" : "pages/borrowingProcess/examine",
+            "style" : {
+				"navigationBarTitleText": "放款审核中",
+				 "navigationBarTextStyle": "black",
+				 "navigationBarBackgroundColor":"white"
+			}
+        }
+        ,{
+            "path" : "pages/borrowingProcess/signUp",
+            "style" : {
+				"navigationBarTitleText": "网联签约",
+				 "navigationBarTextStyle": "black",
+				 "navigationBarBackgroundColor":"white"
+			}
+        }
+        ,{
+            "path" : "pages/record/index",
+			"style" : {
+				"navigationBarTitleText": "借还记录",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor":"white"
+			}
+        }
+        ,{
+            "path" : "pages/record/detail",
+            "style" : {
+				"navigationBarTitleText": "借款详情",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor":"white"
+			}
+        }
+        ,{
+            "path" : "pages/record/contract",
+            "style" : {
+				"navigationBarTitleText": "借款合同",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor":"white"
+			}
+        }
+        ,{
+            "path" : "pages/repayment/index", // 还款
+            "style" : {
+            	"navigationStyle": "custom"
+            }
+        }
+        ,{
+            "path" : "pages/repayment/detail",
+            "style" : {
+				"navigationBarTitleText": "详情", // 还款详情
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor":"white"
+			}
+        }
+        ,{
+            "path" : "pages/repayment/goRepayment",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/repayment/repayIng",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/repayment/advance",
+            "style" : {
+				"navigationStyle": "custom"
+			}
         }
     ],
 	"globalStyle": {
