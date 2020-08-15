@@ -1,12 +1,11 @@
 <template>
 	<view class="container">
 		<view class="change-pwd-wrap">
-			<uniFormitem label='原密码' placeholder='请输入原密码' childTyle='input' isPwd />
-			<uniFormitem label='新密码' placeholder='请输入新密码' childTyle='input' isPwd />
-			<uniFormitem label='新密码' placeholder='请输入新密码' childTyle='input' isPwd />
+			<uniFormitem label='登录密码' placeholder='请输入新的密码' childTyle='input' isPwd />
+			<uniFormitem label='登录密码' placeholder='请确认新密码' childTyle='input' isPwd />
 		</view>
 		<view class="forget-pwd-wrap">
-			<text class="forget-pwd">忘记密码</text>
+			<text class="forget-pwd">请输入6到15位数字或字母登录密码</text>
 		</view>
 		<view class="button-wrap">
 			<button class="take-sure">确认</button>
@@ -59,7 +58,7 @@
 	}
 
 	.forget-pwd {
-		color: #2493FF;
+		color: #666666;
 		font-size: 24upx;
 	}
 </style>

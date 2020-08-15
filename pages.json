@@ -2,45 +2,92 @@
 	"pages": [{
 		"path": "pages/index/index",
 		"style": {
-			"navigationBarTitleText": "uni-ui基础项目"
+			"navigationBarTitleText": "首页"
+		}
+	}, {
+		"path": "pages/login/login",
+		"style": {
+			// "navigationBarTitleText": "false"
+			// navigationStyle:'custom'
+			"navigationBarTitleText": "登录"
+		}
+	}, {
+		"path": "pages/register/register",
+		"style": {
+			"navigationBarTitleText": "注册"
+		}
+	}, {
+		"path": "pages/setpassword/setpassword",
+		"style": {}
+	}, {
+		"path": "pages/safecenter/safecenter",
+		"style": {
+			"navigationBarTitleText": "安全中心"
+		}
+	}, {
+		"path": "pages/safecenter/changepwd/changepwd",
+		"style": {}
+	}, {
+		"path": "pages/mycenter/mycenter",
+		"style": {
+			"navigationBarTitleText": "我的"
+		}
+	}, {
+		"path": "pages/applycredit/applycredit",
+		"style": {
+			"navigationBarTitleText": "云好贷"
+		}
+	}, {
+		"path": "pages/applycredit/basicinfo/basicinfo",
+		"style": {
+			"navigationBarTitleText": "基础信息"
 		}
 	}    ,{
-            "path" : "pages/login/login",
+            "path" : "pages/safecenter/retrievepwd/retrievepwd",
             "style" : {
-				// "navigationBarTitleText": "false"
-				// navigationStyle:'custom'
+				"navigationBarTitleText": "找回密码"
 			}
         }
         ,{
-            "path" : "pages/register/register",
-            "style" : {}
+            "path" : "pages/safecenter/retrievepwd/retrievepwdphone",
+            "style" : {
+				"navigationBarTitleText": "找回密码"
+			}
         }
         ,{
-            "path" : "pages/setpassword/setpassword",
-            "style" : {}
+            "path" : "pages/applycredit/facerecog/facerecog",
+            "style" : {
+				"navigationBarTitleText": "人脸识别"
+			}
         }
         ,{
-            "path" : "pages/safecenter/safecenter",
-            "style" : {}
+            "path" : "pages/applycredit/operateorcertificatiopn/operateorcertificatiopn",
+            "style" : {
+				"navigationBarTitleText": "运营商认证"
+			}
         }
         ,{
-            "path" : "pages/safecenter/changepwd/changepwd",
-            "style" : {}
+            "path" : "pages/applycredit/bindback/bindback",
+            "style" : {
+				"navigationBarTitleText": "银行绑定"
+			}
         }
         ,{
-            "path" : "pages/mycenter/mycenter",
-            "style" : {}
+            "path" : "pages/myamount/myamount",
+            "style" : {
+				"navigationBarTitleText": "我的额度"
+			}
         }
         ,{
-            "path" : "pages/applycredit/applycredit",
+            "path" : "pages/applycredit/applyverdify/applyverdify",
             "style" : {
 				"navigationBarTitleText": "云好贷"
 			}
         }
         ,{
-            "path" : "pages/applycredit/basicinfo/basicinfo",
+            "path" : "pages/myamount//refuseverify/refuseverify",
             "style" : {
-				"navigationBarTitleText": "基础信息"
+				"navigationBarTitleText": "云好贷"
 			}
         }
     ],
@@ -49,22 +96,5 @@
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#007AFF",
 		"backgroundColor": "#FFFFFF"
-	},
-	"tabBar": {
-	    "color": "#7A7E83",
-	    "selectedColor": "#3cc51f",
-	    "borderStyle": "black",
-	    "backgroundColor": "#ffffff",
-	    "list": [{
-	        "pagePath": "pages/component/index",
-	        "iconPath": "static/image/icon_component.png",
-	        "selectedIconPath": "static/image/icon_component_HL.png",
-	        "text": "组件"
-	    }, {
-	        "pagePath": "pages/API/index",
-	        "iconPath": "static/image/icon_API.png",
-	        "selectedIconPath": "static/image/icon_API_HL.png",
-	        "text": "接口"
-	    }]
 	}
 }

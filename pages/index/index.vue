@@ -1,82 +1,214 @@
 <template>
 	<view class="container">
-		<text>数钱吧-C端版</text>
-		<uni-card title="云好贷">
-			<view class="uni-flex uni-amount-wrap">
-				<view class="uni-amount">
-					最高额度 <text class="amount-text">5,000.00 元</text>
+		<view class="index-top">
+			<view class="logo">云好贷</view>
+			<view class="text-wrap">
+				<view class="text">最高额度</view>
+				<view class="text-buttom">
+					<button class="apply" @click="open">立即申请</button>
 				</view>
-				<button class="take-apply">立即申请</button>
 			</view>
-			<view class="uni-flex uni-describe-wrap">
-				<view class="describe-item">申请简单</view>
-				<view class="describe-item">循环额度</view>
-				<view class="describe-item">极速放款</view>
-				<view class="describe-item">随用随取</view>
+			<view class="amount">50,000.00</view>
+			<view class="image-content">
+				<view class="img-item1">
+					<image class="img" src="../../static/assets/08.png"></image>
+					<view class="text">授信简单</view>
+				</view>
+				<view class="img-item2">
+
+					<image class="img" src="../../static/assets/08.png"></image>
+					<view class="text">极速审核</view>
+				</view>
+				<view class="img-item3">
+					<image class="img" src="../../static/assets/08.png"></image>
+					<view class="text">随借随还</view>
+				</view>
+				<view class="img-item4">
+					<image class="img" src="../../static/assets/08.png"></image>
+					<view class="text">随借随还</view>
+				</view>
 			</view>
-		</uni-card>
-		<uni-bottom-nav></uni-bottom-nav>
+		</view>
+		<uniBottomNav></uniBottomNav>
+
+		<uni-popup ref="popup" type="dialog">
+			<view class="content-wrap">
+				<view class="title">
+					<view>数钱吧C端版</view>
+				</view>
+				<view class="tips">
+					<view>你已有云好贷授信额度，是否立即借款?</view>
+				</view>
+				<view class="actions">
+					<view class="button-wrap">
+						<button class="back">返回</button>
+					</view>
+					<view class="button-wrap">
+						<button class="operator">立即借款</button>
+					</view>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 <script>
 	import uniCard from '@/components/uni-card/uni-card.vue'
 	import uniBottomNav from "@/components/uni-bottom-nav/uni-bottom-nav.vue"
+	import uniPopup from '@/components/uni-popup/uni-popup.vue'
+	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
+
+
 
 	export default {
-
 		data() {
 			return {
 				href: 'https://uniapp.dcloud.io/component/README?id=uniui'
 			}
 		},
 		components: {
-
 			uniBottomNav,
-			uniCard
+			uniCard,
+			uniPopup,
+			uniPopupDialog
 		},
 
 		methods: {
-
+			open() {
+				this.$refs.popup.open()
+			}
 		}
 	}
 </script>
 
 <style>
 	.container {
-		padding: 20px;
-		font-size: 14px;
-		line-height: 24px;
+		height: 100%;
+		font-size: 14upx;
+		line-height: 24upx;
+		background: #F1F1F1;
 	}
 
-	.uni-flex {
+	.index-top {
+		height: 630upx;
+		padding: 20upx;
+		/* background: #2393FF; */
+		background: url(../../static/assets/mine_banner01.png) no-repeat;
+		background-size: contain;
+	}
+
+	.logo {
+		font-size: 40upx;
+		line-height: 108upx;
+		font-weight: bold;
+		color: #fff;
+	}
+
+	.text-wrap {
 		display: flex;
-		flex-direction: flex-direction;
-		flex-wrap: wrap;
+		height: 70upx;
+		align-items: center;
+	}
+
+	.text {
+		font-size: 26upx;
+		color: #fff;
+		flex: 1;
+	}
+
+	.text-buttom {
+		text-align: right;
+	}
+
+	.apply {
+		width: 180upx;
+		height: 68upx;
+		font-size: 26upx;
+		border-radius: 35upx;
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+		color: rgba(35, 147, 255, 1);
+	}
+
+	.amount {
+		font-size: 80upx;
+		color: #fff;
+		line-height: 110upx;
+	}
+
+	.image-content {
+		display: flex;
+		justify-content: space-around;
+		padding-top: 53upx;
+		padding-bottom: 53upx;
+		margin-top: 180upx;
+		background: #FFFFFF;
+		border-radius: 20upx;
 
 	}
 
-	.uni-amount-wrap {
-		margin-bottom: 20px;
+	.img-item1,
+	.img-item2,
+	.img-item3,
+	.img-item4 {
+		flex: 1;
+		text-align: center;
 	}
 
-	.uni-amount {}
-
-	.amount-text {
-		font-size: 18px;
+	.image-content image {
+		width: 78upx;
+		height: 86upx;
 	}
 
-	.take-apply {
-		padding: 0px 25px;
-		font-size: 12px;
-		border: 1px solid;
+	.image-content .text {
+		font-size: 12upx;
+		margin-top: 20upx;
+		color: #555555;
 	}
-
-	.uni-describe-wrap {
-		padding: 5px 10px;
-		background: #C0C0C0;
+	
+	/* // */
+	.content-wrap {
+		background: #FFF;
+		padding: 48upx 0;
+		font-size: 32upx;
+		border-radius: 16upx;
 	}
-
-	.describe-item {
-		width: 50%;
+	
+	
+	.content-wrap .title {
+		text-align: center;
+		padding: 0upx 48upx;
+		border-bottom: 1px solid #EDEDED;
+		padding-bottom: 36upx;
 	}
+	.content-wrap .tips {
+		text-align: center;
+		padding: 48upx;
+		font-size: 28upx;
+		color: #4C4C4C;
+		padding-bottom: 60upx;
+		
+	}
+	
+	.content-wrap .actions {
+		padding: 0 48upx;
+		display: flex;
+		justify-content: space-between;
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+	}
+	.actions .back {
+		width: 220upx;
+		height: 80upx;
+		color: #fff;
+		background: #7F7F7F;
+		border-radius:40upx;
+		
+	}
+	.actions .operator {
+		width: 220upx;
+		height: 80upx;
+		color: #fff;
+		background: #2393FF;
+		border-radius:40upx;
+		font-size: 32upx;
+	}
+	
 </style>

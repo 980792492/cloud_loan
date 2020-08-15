@@ -3,67 +3,46 @@
 		<view class="step-wrap">
 			<uni-steps active-color='#2494FF' :options="stepList" :active="activeStep"></uni-steps>
 		</view>
-		<!-- <view class="tips">
-			<uni-notice-bar
-			 background-color='#FEF6E0'
-			 color='#FA6600'
-			 single="true" text="请使用****实名信息进行相关认证"></uni-notice-bar>
-		</view> -->
-		<view class="id-card-wrap">
-			<view class="id-card-person">
-				<image  class="card-person" src="../../../static/assets/12.png"></image>
+		
+		<view class="face-recog-wrap">
+			<view class="face-wrap">
+				<image  class="face-recog" src="../../../static/assets/10.png"></image>
 			</view>
-			<view class="id-card-country">
-				<image class="card-country" src="../../../static/assets/12.png"></image>
+			<view class="face-recog-text">
+				验证时，请将镜头对准你的脸，按提示操作
+			</view>
+			
+		</view>
+		
+		
+		<view class="id-card-wrap tips-warp">
+			<view class="tips-warp-content">
+				<view>
+					<image  class="card-person" src="../../../static/assets/07.png"></image>
+				</view>
+				<view class="tips-text">
+					不要在昏暗或者逆光下扫描
+				</view>
+			</view>
+			<view class="tips-warp-content">
+				<view>
+					<image class="card-country" src="../../../static/assets/07.png"></image>
+				</view>
+				<view class="tips-text">不要低头、斜靠、卧躺</view>
 			</view>
 		</view>
 		
-		<view class="basic-info">
-			<view class="uni-form-item">
-				<view class="uni-form-item-label">月收入</view>
-				<view v-if="!isPwd" class="uni-form-item-type">
-					<input placeholder='请输入月输入' />
-				</view>
-				<view class="uni-form-item-icon">
-					<image class="icon-right" src="../../../static/assets/02right.png"></image>
-				</view>
-			</view>
-			<view class="uni-form-item">
-				<view class="uni-form-item-label">居住地址</view>
-				<view v-if="!isPwd" class="uni-form-item-type">
-					<input placeholder='请选择地址' />
-				</view>
-				<view class="uni-form-item-icon">
-					<image class="icon-right" src="../../../static/assets/02right.png"></image>
-				</view>
-			</view>
-		</view>
 		
-		<view class="urgent-person-wrap">
-			<view class="urgent-person">紧急联系人信息</view>
-			<view class="basic-info">
-				<uniFormitem label='手机号码' placeholder='请输入手机号码' childTyle='input' />
-				<uniFormitem label='手机号码' placeholder='请输入手机号码' childTyle='input' />
-				<view class="uni-form-item">
-					<view class="uni-form-item-label">联系人关系</view>
-					<view v-if="!isPwd" class="uni-form-item-type">
-						<input placeholder='请选择联系人关系' />
-					</view>
-					<view class="uni-form-item-icon">
-						<image class="icon-right" src="../../../static/assets/02right.png"></image>
-					</view>
-				</view>
-			</view>
-		</view>
 		<view class="goto-next-wrap">
-			<button class="goto-next">下一步</button>
+			<view class="position-wrap">
+				<button class="goto-next">马上开始</button>
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
 	import uniSteps from '@/components/uni-steps/uni-steps.vue'
-	// import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
 	import uniFormitem from "@/components/uni-form-item/uni-form-item.vue"
 
 	export default {
@@ -78,12 +57,11 @@
 				}, {
 					title: '银行卡绑定'
 				}],
-				activeStep: 0
+				activeStep: 1
 			}
 		},
 		components: {
 			uniSteps,
-			// uniNoticeBar,
 			uniFormitem
 		},
 		methods: {
@@ -94,9 +72,10 @@
 
 <style>
 	.container {
+		position: relative;
 		width: 100%;
 		height: 100%;
-		background: #F2F2F2 ;
+		background: #FFF ;
 	}
 	.step-wrap {
 		padding: 15upx;
@@ -109,16 +88,60 @@
 		text-align: center;
 		padding-top: 20upx;
 		margin-bottom: 20upx;
+	}
+	
+	.face-recog-wrap {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.face-recog {
+		width: 372upx;
+		height: 372upx;
+	}
+	
+	
+	
+	.face-recog-text {
+		width: 456px;
+		font-size: 12px;
+		color: #AAAAAA;
+		text-align: center;
+		line-height: 12px;
 		margin-top: 20upx;
+		margin-bottom: 30upx;
+	}
+	
+	.tips-warp {
+		display: flex;
+		justify-content: space-around;
+	}
+	.tips-warp-content {
+		/* display: flex; */
+		/* flex-direction: column; */
+	}
+	
+	.tips-text {
+		width: 200upx;
+		font-size: 12px;
+		color: #AAAAAA;
+		text-align: center;
+		line-height: 16px;
+		padding: 10upx 20upx;
+		text-align: center;
 	}
 	
 	.id-card-wrap .card-person {
-		width: 300upx;
-		height: 144upx;
+		width: 160upx;
+		height: 160upx;
 	}
 	.id-card-wrap .card-country {
-		width: 300upx;
-		height: 144upx;
+		width: 160upx;
+		height: 160upx;
+	}
+	
+	.face-wrap {
+		
 	}
 	
 	.basic-info {
@@ -174,10 +197,15 @@
 	
 	/* // */
 	.goto-next-wrap {
-		margin-top: 80upx;
+		position: absolute;
+		left: 0;
+		bottom: 40upx;
+		width: 100%;
+	}
+	.goto-next-wrap .position-wrap {
 		padding: 0 40upx;
 	}
-	.goto-next-wrap .goto-next {
+	.position-wrap .goto-next {
 		width: 100%;
 		height: 80upx;
 		color: #fff;

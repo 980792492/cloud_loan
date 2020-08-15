@@ -17,16 +17,16 @@
 			</view>
 			<view class="image-content">
 				<view class="img-item1">
-					<image class="img" src="../../static/assets/编组 8.png"></image>
+					<image class="img" src="../../static/assets/08.png"></image>
 					<view class="text">授信简单</view>
 				</view>
 				<view class="img-item2">
 					
-					<image class="img" src="../../static/assets/编组 8.png"></image>
+					<image class="img" src="../../static/assets/08.png"></image>
 					<view  class="text">极速审核</view>
 				</view>
 				<view class="img-item3">
-					<image class="img" src="../../static/assets/编组 8.png"></image>
+					<image class="img" src="../../static/assets/08.png"></image>
 					<view  class="text">随借随还</view>
 				</view>
 			</view>
@@ -50,10 +50,10 @@
 <style>
 	.container {
 		box-sizing: border-box;
-		width: 100vw;
-		height: 100vh;
-		padding: 30px;
-		background: url(../../static/assets/Group%2012.png);
+		width: 100%;
+		height: 100%;
+		padding: 30upx;
+		background: url(../../static/assets/Group12.png);
 		background-repeat: no-repeat;
 		background-size: contain;
 	}
@@ -67,7 +67,7 @@
 	}
 	.take-alive-warp {
 		.text {
-			font-size: 36upx;
+			font-size: 40upx;
 			text-align: center;
 			margin-top: 60upx;
 		}
@@ -93,9 +93,10 @@
 	}
 	
 	.apply-credit-wrap .amount {
-		font-size: 50upx;
+		font-size: 60upx;
 		text-align: center;
 		margin-top: 30upx;
+		font-weight: 500;
 	}
 	
 	.image-content {

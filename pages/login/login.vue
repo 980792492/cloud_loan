@@ -1,30 +1,22 @@
 <template>
 	<view class="container">
-		<text>欢迎来到云好贷</text>
-		<view>
-			<page-head title="form"></page-head>
-			<view class="uni-padding-wrap uni-common-mt">
-				<form @submit="formSubmit" @reset="formReset">
-					<view class="uni-form-item uni-column">
-						<input class="uni-input" name="nickname" placeholder="请输入姓名" />
-
-					</view>
-					<view class="uni-form-item uni-column">
-						<input class="uni-input" name="nickname" placeholder="请输入姓名" />
-
-					</view>
-					<view class="uni-btn-v">
-						<button type='primary' form-type="submit">立即登录</button>
-					</view>
-				</form>
-			</view>
+		<text class="welcome">欢迎来到数钱吧C端版</text>
+		<view class="login-wrap">
+			<uniFormitem label='手机号码' childTyle='input'   />
+			<uniFormitem label='登录密码' childTyle='input' isPwd />
 		</view>
-
-		<uni-bottom-nav></uni-bottom-nav>
+		<view class="forget-pwd-wrap">
+			<text class="forget-pwd">忘记密码</text>
+		</view>
+		<view class="take-login">
+			<button class="login-button">立即登录</button>
+		</view>
+		<!-- <uni-bottom-nav /> -->
 	</view>
 </template>
 <script>
 	import uniBottomNav from "@/components/uni-bottom-nav/uni-bottom-nav.vue"
+	import uniFormitem from "@/components/uni-form-item/uni-form-item.vue"
 
 	export default {
 		data() {
@@ -34,6 +26,7 @@
 		},
 		components: {
 			uniBottomNav,
+			uniFormitem
 		},
 
 		methods: {
@@ -44,8 +37,35 @@
 
 <style>
 	.container {
-		padding: 20px;
+		padding: 48upx;
 		font-size: 14px;
 		line-height: 24px;
+	}
+	
+	.welcome {
+		color: #4C4C4C;
+		font-size: 40upx;
+		line-height: 280upx;
+	}
+	.login-wrap {
+	}
+	
+	.forget-pwd-wrap {
+		padding-top: 14upx;
+	}
+	.forget-pwd {
+		color: #2493FF;
+		font-size: 24upx;
+	}
+	
+	.take-login {
+		margin-top: 180upx;
+	}
+	.login-button {
+		height: 80upx;
+		font-size: 32upx;
+		border-radius: 40upx;
+		background: #2393FF;
+		color: #fff;
 	}
 </style>
