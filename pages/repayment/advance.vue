@@ -31,7 +31,7 @@
 	}
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 	/deep/ .uni-navbar--border{
 		border: none;
 	}

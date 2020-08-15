@@ -13,7 +13,7 @@
 		</view>
 		<view>
 			<uni-list v-show="current==0">
-				<uni-list-item v-for="items in recordData[current]" :title="items.money" :note="items.time">
+				<uni-list-item v-for="items in recordData[current]" :title="items.money" :note="items.time" :showArrow="false" >
 					<view slot="right">
 						<text 
 							:class="items.status===0?'ing':items.status===1?'war':'suc'"
@@ -24,8 +24,8 @@
 					</view>
 				</uni-list-item>
 			</uni-list>
-			<uni-list v-show="current==1">
-				<uni-list-item v-for="items in recordData[current]" :title="items.money" :rightText="items.time" />
+			<uni-list v-show="current==1"  >
+				<uni-list-item v-for="items in recordData[current]" :title="items.money" :rightText="items.time" :showArrow="false" />
 			</uni-list>
 		</view>
 		<view  v-if="false" class="noData">
@@ -35,8 +35,9 @@
 </template>
 
 <script>
-	import {uniList,uniListItem} from '@dcloudio/uni-ui'
 	import uniIcons from "@/components/uni-icons/uni-icons.vue"
+	import uniList from "@/components/uni-list/uni-list.vue"
+	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
 	import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
 	export default {
 		components: {uniSegmentedControl,uniList,uniListItem,uniIcons},
@@ -93,12 +94,15 @@
 	}
 	.ing{
 		color #2494FF 
+		font-size 14px
 	}
 	.war{
 		color red
+		font-size 14px
 	}
 	.suc{
 		color #808080
+		font-size 14px
 	}
 	/deep/ .uni-list-item__content-title{
 		font-size 24px

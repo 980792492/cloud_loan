@@ -7,16 +7,16 @@
 			<button type="primary" class="loan-btn" @click="loan">立即借款</button>
 			<view class="image-content">
 				<view class="img-item1">
-					<image class="img" src="../../static/assets/编组 8.png"></image>
+					<image class="img" src="../../static/assets/08.png"></image>
 					<view class="text">授信简单</view>
 				</view>
 				<view class="img-item2">
 					
-					<image class="img" src="../../static/assets/编组 8.png"></image>
+					<image class="img" src="../../static/assets/08.png"></image>
 					<view  class="text">极速审核</view>
 				</view>
 				<view class="img-item3">
-					<image class="img" src="../../static/assets/编组 8.png"></image>
+					<image class="img" src="../../static/assets/08.png"></image>
 					<view  class="text">随借随还</view>
 				</view>
 			</view>
@@ -55,7 +55,7 @@
 		box-sizing: border-box;
 		width: 100vw;
 		height: 100vh;
-		background: url(../../static/assets/Group%2012.png);
+		background: url(../../static/assets/Group12.png);
 		background-repeat: no-repeat;
 		background-size: contain;
 	}

@@ -7,21 +7,21 @@
 		<view class="line"></view>
 		<view>
 			<uni-list>
-				<uni-list-item title="借款总金额" rightText="￥666666.00"/>
-			    <uni-list-item title="借款期限" rightText="3个月"/>
-				<uni-list-item title="借款时间" rightText="2019-06-08"/>
-				<uni-list-item title="还款方式" rightText="等额本息"/>
-				<uni-list-item title="合同协议" >
+				<uni-list-item title="借款总金额" rightText="￥666666.00" :showArrow="false" />
+			    <uni-list-item title="借款期限" rightText="3个月" :showArrow="false" />
+				<uni-list-item title="借款时间" rightText="2019-06-08" :showArrow="false" />
+				<uni-list-item title="还款方式" rightText="等额本息" :showArrow="false" />
+				<uni-list-item title="合同协议" :showArrow="false">
 					<view slot="right">
 						<text style="color: #007AFF;">点击查看</text>
 					</view>
 				</uni-list-item>
-				<uni-list-item title="到账银行" >
+				<uni-list-item title="到账银行" :showArrow="false">
 					<view slot="right">
 						<img class="bank_icon" src="../../static/assets/中国工商银行.png" alt=""><text style="font-size: 14px;color:#333333">工商银行(0608)</text>
 					</view>
 				</uni-list-item>
-				<uni-list-item title="还款计划" >
+				<uni-list-item title="还款计划" :showArrow="false">
 					<view slot="right">
 						<uni-icons @click="changeIcon"  :type="icontype" size="16"></uni-icons>
 					</view>
@@ -39,7 +39,8 @@
 </template>
 
 <script>
-	import {uniList,uniListItem} from '@dcloudio/uni-ui'
+	import uniList from "@/components/uni-list/uni-list.vue"
+	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
 	import uniIcons from "@/components/uni-icons/uni-icons.vue"
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	export default {

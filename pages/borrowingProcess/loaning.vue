@@ -8,16 +8,16 @@
 		<view class="line"></view>
 		<view>
 			<uni-list>
-			    <uni-list-item title="借款期限" @click="showDate('popup')" :rightText="date+'个月'" link />
-			    <uni-list-item title="月利率" rightText="3.0%"/>
-				<uni-list-item title="总利息" rightText="￥122.00"/>
-				<uni-list-item title="还款计划" rightText="首期8月4号 应还¥ 400.00" @click="showDate('popup1')" link/>
-				<uni-list-item title="银行卡" >
+			    <uni-list-item title="借款期限" @click="showDate('popup')" :rightText="date+'个月'" />
+			    <uni-list-item title="月利率" rightText="3.0%" :showArrow="false" />
+				<uni-list-item title="总利息" rightText="￥122.00" :showArrow="false"  />
+				<uni-list-item title="还款计划" rightText="首期8月4号 应还¥ 400.00" @click="showDate('popup1')"/>
+				<uni-list-item title="银行卡" :showArrow="false" >
 					<view slot="right">
-						<img class="bank_icon" src="../../static/assets/中国工商银行.png" alt=""><text>中国工商银行</text>
+						<img class="bank_icon" src="../../static/assets/中国工商银行.png" alt=""><text style="font-size: 14px;">中国工商银行</text>
 					</view>
 				</uni-list-item>
-				<uni-list-item title="金融机构" rightText="小盈金融科技"></uni-list-item>
+				<uni-list-item title="金融机构" rightText="小盈金融科技" :showArrow="false" ></uni-list-item>
 			</uni-list>
 		</view>
 		<view class="remark">
@@ -76,8 +76,9 @@
 </template>
 
 <script>
-	import {uniList,uniListItem} from '@dcloudio/uni-ui'
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
+	import uniList from "@/components/uni-list/uni-list.vue"
+	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
 	export default {
 		components: {uniList,uniListItem,uniPopup},
 		data(){

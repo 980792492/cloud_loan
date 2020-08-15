@@ -41,7 +41,7 @@
 		box-sizing: border-box;
 		width: 100vw;
 		height: 100vh;
-		background: url(../../static/assets/Group%2012.png);
+		background: url(../../static/assets/Group12.png);
 		background-repeat: no-repeat;
 		background-size: contain;
 	}
