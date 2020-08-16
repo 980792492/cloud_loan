@@ -27,14 +27,14 @@
 <style>
 	.container {
 		/* width: 100%; */
-		/* height: 100%; */
+		height: 100%;
 		background: #FFFFFF;
 	}
 	
 	.verify-wrap {
 		display: flex;
 		justify-content: center;
-		margin-top: 40upx;
+		padding-top: 40upx;
 	}
 	.shenhe-pictire {
 		width: 360upx;

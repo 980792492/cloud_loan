@@ -85,7 +85,7 @@
 			}
         }
         ,{
-            "path" : "pages/myamount//refuseverify/refuseverify",
+            "path" : "pages/myamount/refuseverify/refuseverify",
             "style" : {
 				"navigationBarTitleText": "云好贷"
 			}
