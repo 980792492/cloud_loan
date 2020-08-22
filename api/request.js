@@ -26,8 +26,9 @@ export default function Ajax(opts, error, config) {
                 'Content-Type': config.payload ? 'application/json; charset=utf-8' : 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(req => {
-            const res = req.data
-            if (res.retCode === 1000) {
+			console.warn('req', req)
+            const res = req[1].data
+            if ( res.retCode === '000000' ) {
                 resolve(res)
             } else if (res.code === 9999) {
                 uni.navigateTo({
@@ -38,7 +39,7 @@ export default function Ajax(opts, error, config) {
             } else {
                 uni.showModal({
                     // title: '温馨提示',
-                    content: res.message,
+                    content: res.retMsg,
                     showCancel: false
                 })
             }

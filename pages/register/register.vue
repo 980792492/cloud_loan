@@ -11,22 +11,27 @@
 			<view class="uni-form-item">
 				<view class="uni-form-item-label">验证码</view>
 				<view class="uni-form-item-type">
-					<input placeholder='请输入验证码' />
+					<input v-model="captchaCode" placeholder='请输入验证码' />
 				</view>
 				<view class="uni-form-item-icon">
-					<button class="icon-button" @click="getVerifyCode" >{{showText}}</button>
+					<button :class="disabledSendCode ? 'icon-button disabled-button' : 'icon-button'" @click="getVerifyCode" :disabled="disabledSendCode">{{showText}}</button>
 				</view>
 			</view>
 		</view>
 		<view class="forget-pwd-wrap">
 			<view class="uni-padding-wrap">
-				<label class="radio">
-					<!-- <radio class="check-icon" value="r1" checked="true" />我已阅读《数钱吧C端版隐私协议》</label> -->
-					<radio class="check-icon" value="r1" />我已阅读《数钱吧C端版隐私协议》</label>
+				<radio-group name="gender" @change="radioChange">
+					<label class="radio">
+						<radio value="true" :checked="checked" /><text>我已阅读《数钱吧C端版隐私协议》</text>
+					</label>
+				</radio-group>
 			</view>
 		</view>
 		<view class="take-login">
-			<button class="login-button">立即注册</button>
+			<button :disabled="!canTakeRegister" 
+			:class=" canTakeRegister ? 'login-button' : 'login-button disabled-button' "
+			@click="takeRegister"
+			>立即注册</button>
 		</view>
 	</view>
 </template>
@@ -39,25 +44,56 @@
 			return {
 				href: 'https://uniapp.dcloud.io/component/README?id=uniui',
 				loginUserName: '',
-				showText: '获取验证码'
+				captchaCode: '',
+				showText: '获取验证码',
+				disabledSendCode: false,
+				checked: false
 			}
 		},
-		components: {
+		components: {},
+		computed: {
+			canTakeRegister: function() {
+				if (this.loginUserName && this.captchaCode && this.checked) {
+					return true
+				}
+				return false
+			}
 		},
-
 		methods: {
 			getVerifyCode() {
 				const values = {
 					"loginUserName": this.loginUserName,
 					"flag": 1
 				}
+				if (!values.loginUserName) {
+					return false
+				}
 				api.register(values).then(res => {
 					console.log('res', this)
-					const showNum = 60
-					this.timer = setTimeout(() => {
-						showNum --;
+					let showNum = 60;
+					this.timer = setInterval(() => {
+						showNum = showNum - 1;
+						if (showNum <= 0) {
+							this.disabledSendCode = false
+							this.showText = '获取验证码'
+							clearInterval(this.timer)
+						}
 						this.showText = `${showNum} s`
-					}, 60000)
+						this.disabledSendCode = true
+					}, 1000)
+				})
+			},
+			radioChange(e) {
+				this.checked = !this.checked
+			},
+			takeRegister() {
+				const value = {
+					loginUserName: this.loginUserName,
+					captchaCode: this.captchaCode
+				}
+				const url = `/pages/setpassword/setpassword?loginUserName=${value.loginUserName}&captchaCode=${value.captchaCode}`
+				uni.navigateTo({
+					url: url
 				})
 			}
 		}
@@ -114,6 +150,11 @@
 		border-radius: 25upx;
 	}
 
+	.uni-form-item-icon .disabled-button {
+		background: #E5F1FF;
+		color: #333333;
+	}
+
 	.forget-pwd-wrap {
 		padding-top: 14upx;
 	}
@@ -137,5 +178,10 @@
 		border-radius: 40upx;
 		background: #2393FF;
 		color: #fff;
+	}
+
+	.take-login .disabled-button {
+		background: #E5F1FF;
+		color: #333333;
 	}
 </style>

@@ -13,7 +13,7 @@
 </script>
 
 <style>
-	@import url("https://at.alicdn.com/t/font_2007743_x1d0s1006rb.css");
+	@import url("https://at.alicdn.com/t/font_2007743_f1061uo9wr.css");
 	/* 解决头条小程序组件内引入字体不生效的问题 */
 	/* #ifdef MP-TOUTIAO */
 	* {
