@@ -7,5 +7,11 @@ export default {
 	      url:url.login.appLogin,
 	      data: param
 	    })
+	},
+	register(param) {
+		return ajax.payload({
+		  url:url.login.sendAuthCode,
+		  data: param
+		})
 	}
 }

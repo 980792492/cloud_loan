@@ -2,15 +2,19 @@
 	<view class="container">
 		<text class="welcome">欢迎来到数钱吧C端版</text>
 		<view class="login-wrap">
-			<uniFormitem label='手机号码' childTyle='input' />
-			<!-- <uniFormitem label='登录密码' childTyle='input' isPwd /> -->
+			<view class="uni-form-item">
+				<view class="uni-form-item-label">手机号码</view>
+				<view class="uni-form-item-type">
+					<input v-model="loginUserName" placeholder='请输入手机号码' />
+				</view>
+			</view>
 			<view class="uni-form-item">
 				<view class="uni-form-item-label">验证码</view>
-				<view v-if="!isPwd" class="uni-form-item-type">
+				<view class="uni-form-item-type">
 					<input placeholder='请输入验证码' />
 				</view>
 				<view class="uni-form-item-icon">
-					<button class="icon-button">获取验证码</button>
+					<button class="icon-button" @click="getVerifyCode" >{{showText}}</button>
 				</view>
 			</view>
 		</view>
@@ -18,32 +22,44 @@
 			<view class="uni-padding-wrap">
 				<label class="radio">
 					<!-- <radio class="check-icon" value="r1" checked="true" />我已阅读《数钱吧C端版隐私协议》</label> -->
-					<radio class="check-icon" value="r1"  />我已阅读《数钱吧C端版隐私协议》</label>
+					<radio class="check-icon" value="r1" />我已阅读《数钱吧C端版隐私协议》</label>
 			</view>
 		</view>
 		<view class="take-login">
 			<button class="login-button">立即注册</button>
 		</view>
-		<!-- <uni-bottom-nav /> -->
 	</view>
 </template>
 <script>
-	import uniBottomNav from "@/components/uni-bottom-nav/uni-bottom-nav.vue"
-	import uniFormitem from "@/components/uni-form-item/uni-form-item.vue"
+	import api from '@/api/login/index.js'
+	import md5 from '@/utils/JQuery.md5.js'
 
 	export default {
 		data() {
 			return {
-				href: 'https://uniapp.dcloud.io/component/README?id=uniui'
+				href: 'https://uniapp.dcloud.io/component/README?id=uniui',
+				loginUserName: '',
+				showText: '获取验证码'
 			}
 		},
 		components: {
-			uniBottomNav,
-			uniFormitem
 		},
 
 		methods: {
-
+			getVerifyCode() {
+				const values = {
+					"loginUserName": this.loginUserName,
+					"flag": 1
+				}
+				api.register(values).then(res => {
+					console.log('res', this)
+					const showNum = 60
+					this.timer = setTimeout(() => {
+						showNum --;
+						this.showText = `${showNum} s`
+					}, 60000)
+				})
+			}
 		}
 	}
 </script>
