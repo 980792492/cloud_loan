@@ -7,5 +7,5 @@ export default {
 	      url:url.login.appLogin,
 	      data: param
 	    })
-	}
+	},
 }

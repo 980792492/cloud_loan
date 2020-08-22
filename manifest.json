@@ -57,7 +57,7 @@
                       "changeOrigin": true,   
                       "secure": false,
                       "pathRewrite": {  //使用代理； 告诉他你这个连接要用代理
-						"^/yhdapp": ""
+						"^/yhdapp": "/yhdapp"
 						}  
                 }  
             }  
