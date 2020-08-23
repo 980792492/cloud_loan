@@ -35,6 +35,7 @@
 
 <script>
 	import api from '@/api/login/index.js'
+	import md5 from '@/utils/JQuery.md5.js'
 	export default {
 		onLoad: function(option) { //option为object类型，会序列化上个页面传递的参数
 			this.loginUserName = option.loginUserName
@@ -54,18 +55,29 @@
 			},
 			takeSure() {
 				if (this.loginPassword.length < 6) {
+					uni.showToast({
+						icon:'none',
+					    title: '请设置您的密码',
+					});
 					return false
 				}
 				if (this.loginPassword !== this.loginPassword1) {
+					uni.showToast({
+						icon:'none',
+					    title: '请确认两次密码是否一致',
+					});
 					return false
 				}
 				const values = {
 					loginUserName: this.loginUserName,
 					captchaCode: this.captchaCode,
-					loginPassword: this.loginPassword
+					loginPassword: md5.hex_md5(this.loginPassword),
 				}
 				api.setPwd(values).then(res => {
-					
+					const url = `/pages/login/login?loginUserName=${values.loginUserName}`
+					uni.navigateTo({
+						url: url
+					})
 				})
 			}
 		}

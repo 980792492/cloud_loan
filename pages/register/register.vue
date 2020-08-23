@@ -65,7 +65,11 @@
 					"loginUserName": this.loginUserName,
 					"flag": 1
 				}
-				if (!values.loginUserName) {
+				if (!values.loginUserName || values.loginUserName.length !== 11) {
+					uni.showToast({
+						icon:'none',
+					    title: '请输入正确手机号码',
+					});
 					return false
 				}
 				api.register(values).then(res => {
