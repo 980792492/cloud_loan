@@ -29,7 +29,7 @@
 				</view>
 			</view>
 		</view>
-		<uniBottomNav></uniBottomNav>
+		<uniBottomNav current="index" ></uniBottomNav>
 
 		<uni-popup ref="popup" type="dialog">
 			<view class="content-wrap">
@@ -44,7 +44,7 @@
 						<button class="back">返回</button>
 					</view>
 					<view class="button-wrap">
-						<button class="operator">立即借款</button>
+						<button class="operator" @click="loan">立即借款</button>
 					</view>
 				</view>
 			</view>
@@ -56,7 +56,7 @@
 	import uniBottomNav from "@/components/uni-bottom-nav/uni-bottom-nav.vue"
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
-
+	import api from '@/api/index/index.js'
 
 
 	export default {
@@ -74,7 +74,26 @@
 
 		methods: {
 			open() {
-				this.$refs.popup.open()
+				api.isCredit({consumerId:'',identityCard:''}).then(res=>{
+					if(res.data.canAppy===1){
+						//已授信
+						this.$refs.popup.open()
+					}else if(res.data.isCredit === 1){
+						uni.navigateTo({
+							url: '/pages/applycredit/applycredit'
+						})
+					}else{
+						uni.showToast({
+							icon: 'none',
+							title: '您不能申请，请联系客服'
+						})
+					}
+				})
+			},
+			loan(){
+				uni.navigateTo({
+					url: '/pages/borrowingProcess/index'
+				})
 			}
 		}
 	}

@@ -5,7 +5,7 @@
 			<view class="text-wrap">
 				<view class="text">云好贷 剩余额度(元)</view>
 				<view class="text-buttom">
-					<button class="apply" @click="open">立即提款</button>
+					<button class="apply" @click="jumpUrl('/pages/borrowingProcess/index')">立即提款</button>
 				</view>
 			</view>
 			<view class="amount">50,000.00</view>
@@ -15,9 +15,9 @@
 					<view class="used">已用额度<text class="amount-text">10,000.00</text></view>
 				</view>
 				<view class="image-content">
-					<button class="record">借还记录</button>
-					<button class="clear">立即还款</button>
-					<button class="before">提前结清</button>
+					<button class="record" @click="jumpUrl()('/pages/record/index')">借还记录</button>
+					<button class="clear" @click="jumpUrl('/pages/repayment/index')">立即还款</button>
+					<button class="before" @click="jumpUrl('/pages/repayment/advance')">提前结清</button>
 				</view>
 			</view>
 			<view class="operate-wrap">
@@ -33,7 +33,7 @@
 			</view>
 			
 		</view>
-		<uniBottomNav></uniBottomNav>
+		<uniBottomNav current="my"></uniBottomNav>
 
 		<uni-popup ref="popup" type="dialog">
 			<view class="content-wrap">
@@ -79,6 +79,11 @@
 		methods: {
 			open() {
 				this.$refs.popup.open()
+			},
+			jumpUrl(url){
+				uni.navigateTo({
+					url
+				})
 			}
 		}
 	}

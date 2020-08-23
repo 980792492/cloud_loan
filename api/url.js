@@ -8,5 +8,11 @@ export default {
 		sendAuthCode: "/yhdapp/userManager/sendAuthCode", // 注册登入验证码
 		saveAppUser: "/yhdapp/userManager/saveAppUser", //app注册人员保存,
 		rewriteAppPwd: "/yhdapp/userManager/rewriteAppPwd", //忘记密码后找回密码
+	},
+	/**
+	 * 首页
+	 * */
+	index:{
+		queryCredit: "/yhdapp/creditmanage/queryCredit", // 是否授信
 	}
 }

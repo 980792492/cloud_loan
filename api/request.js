@@ -27,9 +27,9 @@ export default function Ajax(opts, error, config) {
             }
         }).then(req => {
             const res = req[1].data
-            if (res.retCode === 1000) {
+            if (res.retCode === "000000") {
                 resolve(res)
-            } else if (res.code === 9999) {
+            } else if (res.retCode === 9999) {
                 uni.navigateTo({
                     url: '/pages/login/login',
                 })
