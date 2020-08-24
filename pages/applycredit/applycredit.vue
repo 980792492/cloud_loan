@@ -6,6 +6,7 @@
 			<view class="take-alive-warp">
 				<button class="take-alive"
 					type="primary"
+					@click="jump()"
 				>激活额度</button>
 			</view>
 
@@ -42,7 +43,11 @@
 			}
 		},
 		methods: {
-
+			jump(){
+				uni.navigateTo({
+					url: '/pages/applycredit/basicinfo/basicinfo'
+				})
+			}
 		}
 	}
 </script>

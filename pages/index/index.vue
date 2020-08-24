@@ -74,21 +74,29 @@
 
 		methods: {
 			open() {
-				api.isCredit({consumerId:'',identityCard:''}).then(res=>{
-					if(res.data.canAppy===1){
-						//已授信
-						this.$refs.popup.open()
-					}else if(res.data.isCredit === 1){
-						uni.navigateTo({
-							url: '/pages/applycredit/applycredit'
-						})
-					}else{
-						uni.showToast({
-							icon: 'none',
-							title: '您不能申请，请联系客服'
-						})
-					}
-				})
+				const consumerId = uni.getStorageSync('consumerId')
+				const identityCard = uni.getStorageSync('identityCard')
+				if (identityCard){
+					api.isCredit({consumerId,identityCard:''}).then(res=>{
+						if(res.data.canAppy===1){
+							//已授信
+							this.$refs.popup.open()
+						}else if(res.data.isCredit === 1){
+							uni.navigateTo({
+								url: '/pages/applycredit/applycredit'
+							})
+						}else{
+							uni.showToast({
+								icon: 'none',
+								title: '您不能申请，请联系客服'
+							})
+						}
+					})
+				}else{
+					uni.navigateTo({
+						url: '/pages/applycredit/applycredit'
+					})
+				}
 			},
 			loan(){
 				uni.navigateTo({

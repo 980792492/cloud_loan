@@ -18,7 +18,9 @@
 		}
 	}, {
 		"path": "pages/setpassword/setpassword",
-		"style": {}
+		"style": {
+			"navigationBarTitleText": "注册"
+		}
 	}, {
 		"path": "pages/safecenter/safecenter",
 		"style": {

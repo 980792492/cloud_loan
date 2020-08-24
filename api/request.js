@@ -1,10 +1,6 @@
 /**
  * ajax封装
  */
-// import uni from ''
-
-const baseUrl = "//47.110.155.207:8182"
-    
 let options = {
     title: '加载中',
 }
@@ -26,8 +22,9 @@ export default function Ajax(opts, error, config) {
                 'Content-Type': config.payload ? 'application/json; charset=utf-8' : 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(req => {
+			console.warn('req', req)
             const res = req[1].data
-            if (res.retCode === "000000") {
+            if ( res.retCode === '000000' ) {
                 resolve(res)
             } else if (res.retCode === 9999) {
                 uni.navigateTo({

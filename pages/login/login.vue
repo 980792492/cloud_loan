@@ -6,16 +6,19 @@
 				<view class="uni-form-item-label">手机号码</view>
 				<!-- // 不是密码类型 -->
 				<view class="uni-form-item-type">
-					<input :placeholder='请输入手机号' v-model="usernmame"  />
+					<input  placeholder='请输入手机号' v-model="loginUserName"  />
 				</view>
 			</view>
 			<view class="uni-form-item">
 				<view class="uni-form-item-label">登录密码</view>
 				<view class="uni-form-item-type">
-					<input :placeholder='请输入登录密码' v-model="password" password='isPwd'  />
+					<input :password='!showPwd' placeholder='请输入登录密码' v-model="password"   />
 				</view>
-				<view class="uni-form-item-icon">
-					<view class="icon">&#xe676;</view>
+				<view class="uni-form-item-icon"
+					@click="takeShowPwd"
+				>
+					<view class="icon" v-if="!showPwd">&#xe676;</view>
+					<view class="icon" v-if="showPwd">&#xe644;</view>
 				</view>
 			</view>
 		</view>
@@ -34,11 +37,15 @@
 	import api from '@/api/login/index.js'
 	import md5 from '@/utils/JQuery.md5.js'
 	export default {
+		onLoad: function(option) {
+			this.loginUserName = option.loginUserName
+		},
 		data() {
 			return {
 				href: 'https://uniapp.dcloud.io/component/README?id=uniui',
-				usernmame: '',
-				password:''
+				loginUserName: '',
+				password:'',
+				showPwd: false
 			}
 		},
 		components: {
@@ -48,8 +55,11 @@
 		mounted() {
 		},
 		methods: {
+			takeShowPwd() {
+				this.showPwd = !this.showPwd
+			},
 			login(){
-				if(!this.usernmame){
+				if(!this.loginUserName){
 					uni.showToast({
 						icon:'none',
 					    title: '请输入手机号',
@@ -63,8 +73,16 @@
 					})
 					return
 				}
-				api.login({usernmame:this.usernmame, password: md5.hex_md5(this.password)}).then(res => {
-					console.log(res)
+				api.login({loginUserName:this.loginUserName, loginPassword: md5.hex_md5(this.password)}).then(res => {
+					const {consumerId, loginUserName, token, userId, identityCard} = res.busiparam
+					uni.setStorageSync('consumerId', consumerId)
+					uni.setStorageSync('loginUserName', loginUserName)
+					uni.setStorageSync('token', token)
+					uni.setStorageSync('userId', userId)
+					identityCard && uni.setStorageSync('userId', userId)
+					uni.navigateTo({
+						url:'/'
+					})
 				})
 			}
 		}

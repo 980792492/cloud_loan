@@ -10,10 +10,10 @@
 			 single="true" text="请使用****实名信息进行相关认证"></uni-notice-bar>
 		</view> -->
 		<view class="id-card-wrap">
-			<view class="id-card-person">
+			<view class="id-card-person" @click="upload">
 				<image  class="card-person" src="../../../static/assets/12.png"></image>
 			</view>
-			<view class="id-card-country">
+			<view class="id-card-country"  @click="upload">
 				<image class="card-country" src="../../../static/assets/12.png"></image>
 			</view>
 		</view>
@@ -65,7 +65,8 @@
 	import uniSteps from '@/components/uni-steps/uni-steps.vue'
 	// import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
 	import uniFormitem from "@/components/uni-form-item/uni-form-item.vue"
-
+	import api from '@/api/apply/index.js'
+	
 	export default {
 		data() {
 			return {
@@ -87,7 +88,38 @@
 			uniFormitem
 		},
 		methods: {
-
+			upload(){
+				const _self = this
+				uni.chooseImage({
+					count: 1,
+					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album'], //从相册选择
+					success: function (res) {
+						const tempFilePaths = res.tempFilePaths;
+						 const uploadTask = uni.uploadFile({
+						  url : '/yhdapp/fileupload/upload',
+						  filePath: tempFilePaths[0],
+						  header:{
+							  token: uni.getStorageSync('token'),
+							  appVersion: '1',
+							  clientType:'android',
+							  appId: 'yhd_v1',
+						  },
+						  name: 'file',
+						  success: function (uploadFileRes) {
+						   const {fileName} = JSON.parse(uploadFileRes.data)
+						   const consumerId = uni.getStorageSync('consumerId')
+						   api.faceDetectImage({filename:fileName,consumerId}).then(res=>{
+							   console.log(res)
+						   })
+						  }
+						 });
+					},
+					error : function(e){
+					 console.log(e);
+					}
+			   });
+			}
 		}
 	}
 </script>
