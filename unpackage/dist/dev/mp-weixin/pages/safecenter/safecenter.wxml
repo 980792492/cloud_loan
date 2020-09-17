@@ -1,0 +1,1 @@
+<view class="container"><uni-list vue-id="12e47bc0-1" bind:__l="__l" vue-slots="{{['default']}}"><uni-list-item vue-id="{{('12e47bc0-2')+','+('12e47bc0-1')}}" title="修改密码" rightText="修改密码" data-event-opts="{{[['^onClick',[['onClick']]],['^click',[['showDate',['popup']]]]]}}" bind:onClick="__e" bind:click="__e" bind:__l="__l"></uni-list-item></uni-list></view>

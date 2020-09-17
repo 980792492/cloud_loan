@@ -1,0 +1,63 @@
+.data-v-10e8d8bd .uni-navbar--border {
+  border: none;
+}
+.container.data-v-10e8d8bd {
+  width: 100vw;
+  height: 100vh;
+  background: #f2f2f2;
+}
+.detail-top.data-v-10e8d8bd {
+  width: 100%;
+  height: 98px;
+  background-color: #fff;
+}
+.detail-top-title.data-v-10e8d8bd {
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 16px;
+  color: #808080;
+}
+.detail-top-money.data-v-10e8d8bd {
+  height: 44px;
+  line-height: 44px;
+  font-family: DINAlternate-Bold;
+  font-size: 30px;
+  color: #000;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+.bank.data-v-10e8d8bd {
+  width: 100%;
+  height: 44px;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  background-color: #fff;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  font-size: 14px;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+.bank_icon.data-v-10e8d8bd {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+.repay-btn.data-v-10e8d8bd {
+  width: 335px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 20px;
+}
+

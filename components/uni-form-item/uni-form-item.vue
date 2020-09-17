@@ -3,7 +3,7 @@
 			<view class="uni-form-item-label">{{label}}</view>
 			<!-- // 不是密码类型 -->
 			<view v-if="!isPwd" class="uni-form-item-type">
-				<input :placeholder='placeholder'   />
+				<input :placeholder='placeholder' />
 			</view>
 			
 			<!-- //	是密码类型 -->

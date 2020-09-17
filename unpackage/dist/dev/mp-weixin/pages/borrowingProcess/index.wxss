@@ -1,0 +1,66 @@
+ .uni-navbar--border {
+  border: none;
+}
+.container {
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  background: url(/static/assets/Group12.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.main {
+  width: 315px;
+  height: 467px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 4px rgba(0,0,0,0.2);
+  margin: 40px auto 0;
+  box-sizing: border-box;
+  padding-top: 64px;
+}
+.main-title {
+  font-size: 20px;
+  text-align: center;
+}
+.main-money {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 30px;
+}
+.loan-btn {
+  width: 275px;
+  height: 44px;
+  border-radius: 22px;
+  margin: 50px auto 70px;
+}
+.image-content {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+          justify-content: space-around;
+  padding-top: 20px;
+  padding-bottom: 50px;
+}
+.img-item1,
+.img-item2,
+.img-item3 {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  text-align: center;
+}
+.image-content image {
+  width: 92rpx;
+  height: 92rpx;
+}
+.image-content image {
+  width: 92rpx;
+  height: 92rpx;
+}
+.image-content .text {
+  font-size: 26rpx;
+}
+

@@ -1,0 +1,129 @@
+
+.container {
+	height: 100%;
+	font-size: 14rpx;
+	line-height: 24rpx;
+	background: #F1F1F1;
+}
+.index-top {
+	height: 630rpx;
+	padding: 20rpx;
+	/* background: #2393FF; */
+	background: url(/static/assets/mine_banner01.png) no-repeat;
+	background-size: contain;
+}
+.logo {
+	font-size: 40rpx;
+	line-height: 108rpx;
+	font-weight: bold;
+	color: #fff;
+}
+.text-wrap {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	height: 70rpx;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+}
+.text {
+	font-size: 26rpx;
+	color: #fff;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+}
+.text-buttom {
+	text-align: right;
+}
+.apply {
+	width: 180rpx;
+	height: 68rpx;
+	font-size: 26rpx;
+	border-radius: 35rpx;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	color: rgba(35, 147, 255, 1);
+}
+.amount {
+	font-size: 80rpx;
+	color: #fff;
+	line-height: 110rpx;
+}
+.image-content {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-justify-content: space-around;
+	        justify-content: space-around;
+	padding-top: 53rpx;
+	padding-bottom: 53rpx;
+	margin-top: 180rpx;
+	background: #FFFFFF;
+	border-radius: 20rpx;
+}
+.img-item1,
+.img-item2,
+.img-item3,
+.img-item4 {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+	text-align: center;
+}
+.image-content image {
+	width: 78rpx;
+	height: 86rpx;
+}
+.image-content .text {
+	font-size: 26rpx;
+	margin-top: 20rpx;
+	color: #555555;
+}
+
+/* // */
+.content-wrap {
+	background: #FFF;
+	padding: 48rpx 0;
+	font-size: 32rpx;
+	border-radius: 16rpx;
+}
+.content-wrap .title {
+	text-align: center;
+	padding: 0rpx 48rpx;
+	border-bottom: 1px solid #EDEDED;
+	padding-bottom: 36rpx;
+}
+.content-wrap .tips {
+	text-align: center;
+	padding: 48rpx;
+	font-size: 28rpx;
+	color: #4C4C4C;
+	padding-bottom: 60rpx;
+}
+.content-wrap .actions {
+	padding: 0 48rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+.actions .back {
+	width: 220rpx;
+	height: 80rpx;
+	color: #fff;
+	background: #7F7F7F;
+	border-radius: 40rpx;
+}
+.actions .operator {
+	width: 220rpx;
+	height: 80rpx;
+	color: #fff;
+	background: #2393FF;
+	border-radius: 40rpx;
+	font-size: 32rpx;
+}
+

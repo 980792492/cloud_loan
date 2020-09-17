@@ -1,0 +1,72 @@
+
+.container {
+	/* width: 100%; */
+	/* height: 100%; */
+	background: #FFFFFF;
+}
+.verify-wrap {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	margin-top: 40rpx;
+}
+.shenhe-pictire {
+	width: 360rpx;
+	height: 280rpx;
+}
+.verify-title {
+	text-align: center;
+	font-size: 32rpx;
+	line-height: 96rpx;
+}
+.verify-text {
+	text-align: center;
+	font-size: 80rpx;
+}
+.verify-text .rmb {
+	font-size: 50rpx;
+	margin-left: 10rpx;
+}
+.give-back {
+	margin-top: 80rpx;
+	padding: 0 30rpx;
+	padding-right: 0;
+}
+.give-back-item {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	border-bottom: 1px solid #EEEEEE;
+	padding: 24rpx 0;
+	padding-right: 24rpx;
+}
+.give-back-item .title {
+	color: #808080;
+	font-size: 28rpx;
+}
+.give-back-item .text {
+	color: #333;
+	font-size: 28rpx;
+}
+.goto-home {
+	padding: 0 30rpx;
+	margin-top: 120rpx;
+}
+.goto-home-button {
+	height: 80rpx;
+	background: #2494FF;
+	color: #FFF;
+	border-radius: 40rpx;
+	font-size: 32rpx;
+}
+
+
+
+
+

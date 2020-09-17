@@ -4,6 +4,8 @@
 			<uni-steps active-color='#2494FF' :options="stepList" :active="activeStep"></uni-steps>
 		</view>
 		
+		<view class="tips">为了保障您的资金安全，需识别本人脸部</view>
+		
 		<view class="face-recog-wrap">
 			<view class="face-wrap">
 				<image  class="face-recog" src="../../../static/assets/10.png"></image>
@@ -35,7 +37,7 @@
 		
 		<view class="goto-next-wrap">
 			<view class="position-wrap">
-				<button class="goto-next">马上开始</button>
+				<button class="goto-next" @click='chooseImgTap'>马上开始</button>
 			</view>
 		</view>
 	</view>
@@ -44,6 +46,10 @@
 <script>
 	import uniSteps from '@/components/uni-steps/uni-steps.vue'
 	import uniFormitem from "@/components/uni-form-item/uni-form-item.vue"
+	import api from '@/api/apply/index.js'
+	import {BASE_URL} from '@/api/api.js'
+	
+	
 
 	export default {
 		data() {
@@ -65,6 +71,79 @@
 			uniFormitem
 		},
 		methods: {
+			// 拍照
+			chooseImgTap(){
+				
+				
+				// return false;
+				const _self = this
+				uni.chooseImage({
+					count: 1,
+					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['camera'], //拍照
+					success: function(res) {
+						const tempFilePath = res.tempFilePaths[0];
+						const uploadTask = uni.uploadFile({
+							url: BASE_URL +  '/yhdapp/fileupload/upload',
+							
+							// url: '/yhdapp/fileupload/upload',
+														filePath: tempFilePath,
+							header: {
+								token: uni.getStorageSync('token'),
+								appVersion: '1',
+								clientType: 'android',
+								appId: 'yhd_v1',
+							},
+							name: 'file',
+							success: function(uploadFileRes) {
+				
+								console.log(uploadFileRes);
+								const {
+									fileName
+								} = JSON.parse(uploadFileRes.data)
+								const consumerId = uni.getStorageSync('consumerId')
+								api.faceDetectImage({
+									filename: fileName,
+									consumerId
+								}).then(res => {
+									
+									if(res.retCode === '000000'){
+										
+										uni.showToast({
+											title:'上传成功',
+											icon:'none'
+										})
+										
+										setTimeout(()=>{
+											uni.navigateTo({
+												url: "/pages/applycredit/operateorcertificatiopn/operateorcertificatiopn"
+											})
+										},2000)
+										
+										
+									}
+									
+				
+									// personImg:'', //身份证正面
+									// countryImg:'' ,//身份证反面
+				// 					if (type === 'person') {
+				// 						_self.personImg = tempFilePath
+				// 					} else {
+				// 						_self.countryImg = tempFilePath
+				
+				// 					}
+									console.log(777777);
+									console.log(res)
+								})
+							}
+						});
+					},
+					error: function(e) {
+						console.log(e);
+					}
+				});
+							
+			},
 
 		}
 	}
@@ -81,6 +160,13 @@
 		padding: 15upx;
 		font-size: 12upx;
 		background: #fff;
+	}
+	.tips{
+		font-size: 28upx;
+		line-height: 128upx;
+		color: #333;
+		width: 100%;
+		text-align: center;
 	}
 	
 	.id-card-wrap {

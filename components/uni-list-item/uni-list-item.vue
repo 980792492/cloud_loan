@@ -144,7 +144,7 @@
 		},
 		methods: {
 			onClick() {
-				this.$emit('click')
+				this.$emit('onClick')
 			},
 			onSwitchChange(e) {
 				this.$emit('switchChange', e.detail)
@@ -160,6 +160,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		padding-left: 15px;
+		
 	}
 
 	.uni-list-item--disabled {

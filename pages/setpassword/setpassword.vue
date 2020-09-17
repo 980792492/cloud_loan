@@ -7,19 +7,21 @@
 			<view class="uni-form-item">
 				<view class="uni-form-item-label">登录密码</view>
 				<view class="uni-form-item-type">
-					<input :password='!showPwd' v-model="loginPassword" placeholder='请输入登录密码' />
+					<input :password='!showPwd1' v-model="loginPassword" placeholder='请输入登录密码' />
 				</view>
-				<view class="uni-form-item-icon" @click="takeShowPwd">
-					<view class="icon" v-if="!showPwd">&#xe676;</view>
-					<view class="icon" v-if="showPwd">&#xe644;</view>
+				<view class="uni-form-item-icon" @click="showPwd1 = !showPwd1">
+					<view class="icon" v-if="!showPwd1">&#xe676;</view>
+					<view class="icon" v-if="showPwd1">&#xe644;</view>
 				</view>
 			</view>
 			<view class="uni-form-item">
 				<view class="uni-form-item-label">登录密码</view>
 				<view class="uni-form-item-type">
-					<input :password='!showPwd' v-model="loginPassword1" placeholder='请确认登录密码' />
+					<input :password='!showPwd2' v-model="loginPassword1" placeholder='请确认登录密码' />
 				</view>
-				<view class="uni-form-item-icon">
+				<view class="uni-form-item-icon"  @click="showPwd2 = !showPwd2">
+					<view class="icon" v-if="!showPwd2">&#xe676;</view>
+					<view class="icon" v-if="showPwd2">&#xe644;</view>
 					<!-- <button :class="disabledSendCode ? 'icon-button disabled-button' : 'icon-button'" @click="getVerifyCode" :disabled="disabledSendCode">{{showText}}</button> -->
 				</view>
 			</view>
@@ -43,6 +45,8 @@
 		},
 		data() {
 			return {
+				showPwd1:false,
+				showPwd2:false,
 				loginPassword: '',
 				loginPassword1: '',
 				showPwd: false
@@ -54,13 +58,27 @@
 				this.showPwd = !this.showPwd
 			},
 			takeSure() {
-				if (this.loginPassword.length < 6) {
+				if (!this.loginPassword.length) {
 					uni.showToast({
 						icon:'none',
 					    title: '请设置您的密码',
 					});
 					return false
 				}
+				
+				
+				
+				if( !(/^[a-zA-Z0-9]{6,15}$/.test(this.loginPassword))){
+					uni.showToast({
+						title:'请输入6到15位数字或字母登录密码',
+						icon:'none'
+					})
+					
+					return false;
+					
+				}
+				
+				
 				if (this.loginPassword !== this.loginPassword1) {
 					uni.showToast({
 						icon:'none',
@@ -74,10 +92,21 @@
 					loginPassword: md5.hex_md5(this.loginPassword),
 				}
 				api.setPwd(values).then(res => {
-					const url = `/pages/login/login?loginUserName=${values.loginUserName}`
-					uni.navigateTo({
-						url: url
-					})
+					console.log(res);
+					if(res.retCode === '000000'){
+						const url = `/pages/login/login?loginUserName=${values.loginUserName}`
+						uni.navigateTo({
+							url: url
+						})
+					}else{
+						uni.showToast({
+							title: res.retMsg,
+							icon:'none'
+						})
+						
+					}
+					
+					
 				})
 			}
 		}
@@ -139,7 +168,7 @@
 	}
 
 	.forget-pwd-wrap {
-		padding-top: 14upx;
+		padding-top: 28upx;
 		padding-bottom: 200upx;
 	}
 

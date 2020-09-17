@@ -1,0 +1,137 @@
+ .uni-navbar--border {
+  border: none;
+}
+.container {
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  background: url(/static/assets/Group12.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.main {
+  width: 315px;
+  height: 325px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 4px rgba(0,0,0,0.2);
+  margin: 30px auto 0;
+  box-sizing: border-box;
+  padding-top: 20px;
+}
+.main-title {
+  height: 60px;
+  line-height: 60px;
+  font-size: 20px;
+  text-align: center;
+  color: #333;
+}
+.norepay {
+  color: #ee2532;
+  font-size: 20px;
+}
+.main-money {
+  height: 48px;
+  line-height: 48px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 45px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.loan-btn {
+  width: 275px;
+  height: 44px;
+  border-radius: 22px;
+  margin: 0 auto 36px;
+}
+.tips {
+  width: 100%;
+  height: auto;
+  line-height: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: #aaa;
+  box-sizing: border-box;
+  padding: 0 21px;
+}
+.waring {
+  font-size: 12px;
+  color: #333;
+}
+.surplus {
+  width: 315px;
+  height: auto;
+  margin: 24px auto 0;
+  position: relative;
+  padding-top: 6px;
+}
+.surplus::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 12px;
+  border-radius: 6px;
+  background-color: #2494ff;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.surplus::after {
+  content: '';
+  display: block;
+  width: 95%;
+  height: 12px;
+  border-radius: 0 0 15px 15px;
+  background-color: #fff;
+  position: absolute;
+  top: 6px;
+  left: 2.5%;
+}
+.surplus-list {
+  width: 295px;
+  height: auto;
+  box-sizing: border-box;
+  padding: 20px 16px 48px;
+  background-color: #fff;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px 2px rgba(0,0,0,0.3);
+  border-radius: 6px;
+}
+.surplus-list-li {
+  width: 100%;
+  height: 44px;
+  line-height: 44px;
+  font-size: 14px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  border-bottom: 1px dashed #eee;
+}
+.surplus-list-title {
+  font-size: 14px;
+  line-height: 20px;
+}
+

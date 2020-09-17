@@ -13,7 +13,7 @@
 		</view>
 		<view>
 			<uni-list v-show="current==0">
-				<uni-list-item v-for="items in recordData[current]" :title="items.money" :note="items.time" :showArrow="false" >
+				<uni-list-item v-for="items in data" :key='items.id' :title="items.amount" :note="items.createTime" :showArrow="false"  @click='goDetailTap(items.orderId)'>
 					<view slot="right">
 						<text 
 							:class="items.status===0?'ing':items.status===1?'war':'suc'"
@@ -25,7 +25,7 @@
 				</uni-list-item>
 			</uni-list>
 			<uni-list v-show="current==1"  >
-				<uni-list-item v-for="items in recordData[current]" :title="items.money" :rightText="items.time" :showArrow="false" />
+				<uni-list-item v-for="items in recordData[current]" :key='items.id' :title="items.money" :rightText="items.time" :showArrow="false" />
 			</uni-list>
 		</view>
 		<view  v-if="false" class="noData">
@@ -39,10 +39,17 @@
 	import uniList from "@/components/uni-list/uni-list.vue"
 	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
 	import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
+	
+	import api from '@/api/loan/index.js'
+	
+	
+	
+	
 	export default {
 		components: {uniSegmentedControl,uniList,uniListItem,uniIcons},
 		data() {
 			return {
+				data:[],
 				items: ['借款记录','还款记录'],
 				label:'123',
 				current: 0,
@@ -68,11 +75,44 @@
 						{money: '7000.00', time: '2013年6月22日',status: 0},
 						{money: '7000.00', time: '2019年6月12日',status: 1},
 						{money: '8000.00', time: '2019年2月22日',status: 1},
+						{money: '1000.00', time: '2019年6月22日',status: 0},
+						{money: '2000.00', time: '2019年9月22日',status: 1},
+						{money: '3000.00', time: '2019年7月2日',status: 2},
+						{money: '4000.00', time: '2019年6月22日',status: 0},
+						{money: '5000.00', time: '2019年6月22日',status: 1},
+						{money: '6000.00', time: '2019年2月22日',status: 2},
+						{money: '7000.00', time: '2013年6月22日',status: 0},
+						{money: '7000.00', time: '2019年6月12日',status: 1},
+						{money: '8000.00', time: '2019年2月22日',status: 1},
 					]
-				]
+				],
+				
 			}
 		},
+		onLoad(){
+			this.getLoanOrderList();
+		},
 		methods: {
+			
+			goDetailTap(id){
+				uni.navigateTo({
+					url:`/pages/record/detail?loanOrderId=${id}`
+				})
+			},
+			
+			// 借款记录
+			getLoanOrderList(){
+				 const consumerId = uni.getStorageSync('consumerId')
+				 
+				api.getLoanOrderList({consumerId}).then(res => {
+					console.log(res);
+					this.data = res.busiparam;
+					
+				})
+				
+				
+			},
+			
 			onClickItem(v){
 				this.current = v.currentIndex
 			}
@@ -114,7 +154,7 @@
 		font-size 14px
 		color #aaa
 		text-align center
-		background url('../../static/assets/Pages/缺省图/无记录.png') no-repeat center 134px
+		background url('../../static/assets/Pages/default/default.png') no-repeat center 134px
 		background-size 100px
 	}
 }

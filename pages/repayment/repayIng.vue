@@ -1,9 +1,9 @@
 <template>
 	<view class="container">
-		<uni-nav-bar left-icon="back" style="border-bottom: none" background-color="#007AFF" color="#fff"  right-text="借款记录" title="云好贷"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" style="border-bottom: none" background-color="#007AFF" color="#fff"  right-text="借款记录" title="云好贷" @clickLeft='clickLeft' @clickRight='clickRight'></uni-nav-bar>
 		<view class="main">
 			<view class="main-title">还款处理中...</view>
-			<view class="main-money">￥50,000</view>
+			<view class="main-money">￥{{amount}}</view>
 			<view class="main-tips">还款处理中，请耐心等待</view>
 			<view v-if="false" class="main-tips">请留意还款结果短信通知</view>
 		</view>
@@ -13,8 +13,32 @@
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	export default {
+		data(){
+			return{
+				amount:'',
+			}
+		},
 	    components: {uniNavBar},
+		onLoad(options){
+			this.amount = options.amount;
+			
+		},
 		methods:{
+			// 返回
+			clickLeft(){
+				console.log(33333);
+				uni.navigateBack({
+					delta:1
+				})
+			},
+			
+			
+			//借款记录
+			clickRight(){
+				uni.redirectTo({
+					url:'/pages/record/index'
+				})
+			},
 			loan(){
 				uni.showModal({
 				    content: '太久未使用，授信过期啦，请重新完成授信流程再次尝试',
@@ -53,7 +77,7 @@
 		margin: 20px auto 0;
 		box-sizing: border-box;
 		padding-top: 64px;
-		background #fff url('../../static/assets/编组 5@3x.png') no-repeat center 220px
+		background #fff url('../../static/assets/icon5.png') no-repeat center 220px
 		background-size 180px 140px
 	}
 	.main-title{

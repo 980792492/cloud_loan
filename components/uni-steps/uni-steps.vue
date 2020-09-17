@@ -1,12 +1,7 @@
 <template>
 	<view class="uni-steps">
 		<view :class="[direction==='column'?'uni-steps__column':'uni-steps__row']">
-			<view :class="[direction==='column'?'uni-steps__column-text-container':'uni-steps__row-text-container']">
-				<view v-for="(item,index) in options" :key="index" :class="[direction==='column'?'uni-steps__column-text':'uni-steps__row-text']">
-					<text :style="{color:index<=active?activeColor:deactiveColor}" :class="[direction==='column'?'uni-steps__column-title':'uni-steps__row-title']">{{item.title}}</text>
-					<text :style="{color:index<=active?activeColor:deactiveColor}" :class="[direction==='column'?'uni-steps__column-desc':'uni-steps__row-desc']">{{item.desc}}</text>
-				</view>
-			</view>
+			
 			<view :class="[direction==='column'?'uni-steps__column-container':'uni-steps__row-container']">
 				<view :class="[direction==='column'?'uni-steps__column-line-item':'uni-steps__row-line-item']" v-for="(item,index) in options" :key="index">
 					<view :class="[direction==='column'?'uni-steps__column-line':'uni-steps__row-line',direction==='column'?'uni-steps__column-line--before':'uni-steps__row-line--before']" :style="{backgroundColor:index<=active&&index!==0?activeColor:index===0?'transparent':deactiveColor}"></view>
@@ -17,6 +12,13 @@
 					<view :class="[direction==='column'?'uni-steps__column-line':'uni-steps__row-line',direction==='column'?'uni-steps__column-line--after':'uni-steps__row-line--after']" :style="{backgroundColor:index<active&&index!==options.length-1?activeColor:index===options.length-1?'transparent':deactiveColor}"></view>
 				</view>
 			</view>
+			<view :class="[direction==='column'?'uni-steps__column-text-container nav-text':'uni-steps__row-text-container nav-text']">
+				<view v-for="(item,index) in options" :key="index" :class="[direction==='column'?'uni-steps__column-text':'uni-steps__row-text']">
+					<text :style="{color:index<=active?activeColor:deactiveColor}" :class="[direction==='column'?'uni-steps__column-title':'uni-steps__row-title']">{{item.title}}</text>
+					<text :style="{color:index<=active?activeColor:deactiveColor}" :class="[direction==='column'?'uni-steps__column-desc':'uni-steps__row-desc']">{{item.desc}}</text>
+				</view>
+			</view>
+			
 		</view>
 	</view>
 </template>
@@ -114,6 +116,9 @@
 		/* #endif */
 		flex-direction: column;
 		flex: 1;
+	}
+	.nav-text{
+		margin-top: 30upx;
 	}
 
 	.uni-steps__row-text {

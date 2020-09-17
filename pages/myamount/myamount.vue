@@ -4,7 +4,7 @@
 			<image class="shenhe-pictire" src="../../static/assets/09.png"></image>
 		</view>
 		<view class="verify-title">恭喜您成功获得额度</view>
-		<view class="verify-text">6,000.00 <text class="rmb">元</text></view>
+		<view class="verify-text">{{quota}} <text class="rmb">元</text></view>
 		<view class="give-back">
 			<view class="give-back-item">
 				<text class="title">还款方式</text>
@@ -15,21 +15,74 @@
 				<text class="text">小盈科技</text>
 			</view>
 		</view>
-		<view class="goto-home">
+		<view class="goto-home" @click='jumpPageTap'>
 			<button class="goto-home-button">立即借款</button>
 		</view>
 	</view>
 </template>
 
 <script>
+	import api from '@/api/apply/index.js'
+	import utils from '@/utils/utils.js'
+	
 	export default {
 		data() {
 			return {
+				quota:"",
 				
 			}
 		},
+		onLoad(){
+			this.getQuota();
+
+
+		},
 		methods: {
 			
+			// 立刻借款
+			jumpPageTap(){
+				uni.navigateTo({
+					url:'/pages/borrowingProcess/index'
+				})
+			},
+			
+			// 获取额度
+			getQuota(){
+				
+				const consumerId = uni.getStorageSync('consumerId')
+				
+				api.getQuotaQuery({consumerId}).then(res => {
+					console.log(res);
+					this.quota = utils.formatMoney(res.busiparam.quota)
+				})
+				
+				
+				
+			},
+			// 将数字转换成金额显示
+			  formatMoney(num) {
+			    if (num) {
+			      // if (isNaN(num)) {
+			      //   // alert('金额中含有不能识别的字符');
+			      //   return;
+			      // }
+			      num = typeof num == 'string' ? parseFloat(num) : num // 判断是否是字符串如果是字符串转成数字
+			      num = num.toFixed(2); // 保留两位
+			      console.log(num)
+			      num = parseFloat(num); // 转成数字
+			      num = num.toLocaleString(); // 转成金额显示模式
+			      // 判断是否有小数
+			      if (num.indexOf('.') === -1) {
+			        num = '￥' + num + '.00';
+			      } else {
+			        console.log(num.split('.')[1].length)
+			        // num = num.split('.')[1].length < 2 ? '￥' + num + '0' : '￥' + num;
+			      }
+			      return num; // 返回的是字符串23,245.12保留2位小数
+			    } else {
+			      return num = null;
+			    }
+			  }
 		}
 	}
 </script>

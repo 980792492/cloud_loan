@@ -1,21 +1,23 @@
 <template>
 	<view class="container">
-		<uni-nav-bar left-icon="back" style="border-bottom: none" background-color="#007AFF" color="#fff"  right-text="借款记录" title="云好贷"></uni-nav-bar>
+		<uni-nav-bar left-icon="back" style="border-bottom: none" background-color="#007AFF" color="#fff"  right-text="借款记录" title="云好贷" @clickLeft='clickLeft' @clickRight='clickRight'></uni-nav-bar>
 		<view class="main">
-			<view class="main-title">8月2日待还</view>
+			<view class="main-title">{{data.mark}}</view>
 			<!-- <view class="main-title norepay">逾期未还</view> -->
-			<view class="main-money"><text>￥5,000,000</text><uni-icons @click="changeIcon" color="#aaa"  type="arrowright" size="24"></uni-icons></view>
+			<view class="main-money"><text>￥{{data.payMoney}}</text>
+		<!--	<uni-icons @click="changeIcon" color="#aaa"  type="arrowright" size="24">-->
+			</uni-icons></view>
 			<button type="primary" class="loan-btn" @click="loan">去还款</button>
-			<view class="tips">我们会在还款日当天自动从<text style="color: #2E99FF;">中国银行(9282)</text>中自动扣款，请确保当日银行卡中余额充足</view>
+			<view class="tips">我们会在还款日当天自动从<text style="color: #2E99FF;">{{userInfo.bankName + '(' + this.cardNo +  ')'}}</text>中自动扣款，请确保当日银行卡中余额充足</view>
 			<!-- <view class="tips waring">逾期会严重影响您的征信，请尽快结清逾期款项</view> -->
 		</view>
 		<view class="surplus">
 			<view class="surplus-list">
 				<view class="surplus-list-title">剩余还款计划</view>
-				<view class="surplus-list-li" v-for="items in plan">
-					<text>{{items.time}}</text>
+				<view class="surplus-list-li" v-for="items in data.repayPlanList" :key='items.period'>
+					<text>{{items.planRepayDate}}</text>
 					<view>
-						<text style="font-size: 16px;">{{items.money}}</text>
+						<text style="font-size: 16px;">{{items.planRepayPrincipal}}</text>
 						<uni-icons @click="changeIcon" color="#aaa"  type="arrowright" size="20"></uni-icons>
 					</view>
 				</view>
@@ -30,10 +32,19 @@
 <script>
 	import uniIcons from "@/components/uni-icons/uni-icons.vue"
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
+	import api from '@/api/loan/index.js'
+	
 	export default {
 	    components: {uniNavBar, uniIcons},
 		data(){
 			return{
+				cardNo:'',
+				userInfo:{
+					
+				},
+				data:{
+					
+				},
 				plan:[
 					{time:'3月2日', money:'600.00'},
 					{time:'4月2日', money:'300.00'},
@@ -42,8 +53,49 @@
 				]
 			}
 		},
+		onLoad(){
+			this.userInfo = uni.getStorageSync('userInfo');
+			this.cardNo = this.userInfo.cardNo.substring(this.userInfo.cardNo.length-4,this.userInfo.cardNo.length)
+		
+		},
+		onShow(){
+			this.toGetreplayInfo();
+		},
 		methods:{
+			
+		
+			
+			//借款记录
+			clickRight(){
+				uni.redirectTo({
+					url:'/pages/record/index'
+				})
+			},
+			
+			//获取提前结清数据
+			toGetreplayInfo(){
+				const consumerId = uni.getStorageSync('consumerId')
+				
+				api.toGetreplayInfo({flag:1,consumerId}).then(res => {
+					console.log(res);
+					if(res.retCode === "000000"){
+						this.data = res.busiparam;
+						
+					}
+					
+				})
+			},
+			// 返回
+			clickLeft(){
+				console.log(33333);
+				uni.navigateBack({
+					delta:1
+				})
+			},
 			loan(){
+				uni.navigateTo({
+					url:'/pages/repayment/advance?flag=1'
+				})
 				uni.showModal({
 				    content: '太久未使用，授信过期啦，请重新完成授信流程再次尝试',
 					cancelText:'关闭',

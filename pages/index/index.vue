@@ -5,6 +5,7 @@
 			<view class="text-wrap">
 				<view class="text">最高额度</view>
 				<view class="text-buttom">
+
 					<button class="apply" @click="open">立即申请</button>
 				</view>
 			</view>
@@ -29,7 +30,7 @@
 				</view>
 			</view>
 		</view>
-		<uniBottomNav current="index" ></uniBottomNav>
+		<!-- <uniBottomNav current="index"></uniBottomNav> -->
 
 		<uni-popup ref="popup" type="dialog">
 			<view class="content-wrap">
@@ -41,7 +42,7 @@
 				</view>
 				<view class="actions">
 					<view class="button-wrap">
-						<button class="back">返回</button>
+						<button class="back" @click="closeTap">返回</button>
 					</view>
 					<view class="button-wrap">
 						<button class="operator" @click="loan">立即借款</button>
@@ -57,6 +58,12 @@
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
 	import api from '@/api/index/index.js'
+	import loginApi from '@/api/login/index.js'
+
+
+
+	import apply from '@/api/apply/index.js'
+
 
 
 	export default {
@@ -71,34 +78,127 @@
 			uniPopup,
 			uniPopupDialog
 		},
+		onShow() {
+			
+			if(!uni.getStorageSync('userInfo') || !(uni.getStorageSync('userInfo').bankName) ){
+				console.log(1234);
+				this.getUserInfo();
+			}else{
+				console.log(1234444);
+				console.log(this.userInfo)
+				
+				this.userInfo = uni.getStorageSync('userInfo');
+			}
+			// uni.clearStorageSync();
+			// 是否授信
+			this.queryCredit();
+		},
+		onLoad() {
+
+
+			//this.getData1();
+
+
+		},
 
 		methods: {
+			
+			
+			//获取用户信息
+			getUserInfo(){
+				const consumerId = uni.getStorageSync('consumerId')
+				
+				loginApi.getUserInfo({consumerId}).then(res =>{
+					console.log(res);
+					
+					if(res.retCode === "000000"){
+						this.userInfo = res.data;
+						console.log(this.userInfo);
+						uni.setStorageSync('userInfo', this.userInfo)
+					}
+					
+				})
+			},
+			
+			
+	
+
+		
+
+
+
+			// 是否授信
+			queryCredit() {
+
+
+				const consumerId = uni.getStorageSync('consumerId')
+
+				apply.queryCredit({
+					consumerId
+				}).then(res => {
+					console.log(res)
+
+					if (res.retCode === "000000") {
+
+
+					}
+
+
+
+				})
+
+
+			},
+
 			open() {
 				const consumerId = uni.getStorageSync('consumerId')
 				const identityCard = uni.getStorageSync('identityCard')
-				if (identityCard){
-					api.isCredit({consumerId,identityCard:''}).then(res=>{
-						if(res.data.canAppy===1){
-							//已授信
-							this.$refs.popup.open()
-						}else if(res.data.isCredit === 1){
+				if (consumerId) {
+					api.isCredit({
+						consumerId,
+						identityCard: ''
+					}).then(res => {
+						console.log(res);
+						if (res.retCode === '4001') {
 							uni.navigateTo({
-								url: '/pages/applycredit/applycredit'
+								url: '/pages/applycredit/basicinfo/basicinfo'
 							})
-						}else{
-							uni.showToast({
-								icon: 'none',
-								title: '您不能申请，请联系客服'
-							})
+
+						} else {
+							let busiparam = res.busiparam;
+
+							if (busiparam.canAppy === 1) {
+								//已授信
+								this.$refs.popup.open()
+							} else if (busiparam.isCredit === 1) {
+								uni.navigateTo({
+									url: '/pages/applycredit/applycredit'
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '您不能申请，请联系客服'
+								})
+							}
+
 						}
+
+
 					})
-				}else{
+				} else {
 					uni.navigateTo({
-						url: '/pages/applycredit/applycredit'
+						url: '/pages/login/login'
 					})
 				}
 			},
-			loan(){
+
+			closeTap() {
+				this.$refs.popup.close();
+
+			},
+			loan() {
+				this.closeTap();
+
 				uni.navigateTo({
 					url: '/pages/borrowingProcess/index'
 				})
@@ -186,11 +286,11 @@
 	}
 
 	.image-content .text {
-		font-size: 12upx;
+		font-size: 26upx;
 		margin-top: 20upx;
 		color: #555555;
 	}
-	
+
 	/* // */
 	.content-wrap {
 		background: #FFF;
@@ -198,44 +298,46 @@
 		font-size: 32upx;
 		border-radius: 16upx;
 	}
-	
-	
+
+
 	.content-wrap .title {
 		text-align: center;
 		padding: 0upx 48upx;
 		border-bottom: 1px solid #EDEDED;
 		padding-bottom: 36upx;
 	}
+
 	.content-wrap .tips {
 		text-align: center;
 		padding: 48upx;
 		font-size: 28upx;
 		color: #4C4C4C;
 		padding-bottom: 60upx;
-		
+
 	}
-	
+
 	.content-wrap .actions {
 		padding: 0 48upx;
 		display: flex;
 		justify-content: space-between;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
 	}
+
 	.actions .back {
 		width: 220upx;
 		height: 80upx;
 		color: #fff;
 		background: #7F7F7F;
-		border-radius:40upx;
-		
+		border-radius: 40upx;
+
 	}
+
 	.actions .operator {
 		width: 220upx;
 		height: 80upx;
 		color: #fff;
 		background: #2393FF;
-		border-radius:40upx;
+		border-radius: 40upx;
 		font-size: 32upx;
 	}
-	
 </style>

@@ -10,7 +10,7 @@
 		<view class="bank">
 			<text style="color: #808080;">银行卡</text>
 			<view>
-				<img class="bank_icon" src="../../static/assets/中国工商银行.png" alt=""><text style="font-size: 14px;color:#333333">工商银行(0608)</text>
+				<img class="bank_icon" src="../../static/assets/gsyh.png" alt=""><text style="font-size: 14px;color:#333333">工商银行(0608)</text>
 			</view>
 		</view>
 		<view class="btn-box">

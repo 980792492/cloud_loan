@@ -22,7 +22,7 @@
 			<view class="uni-padding-wrap">
 				<radio-group name="gender" @change="radioChange">
 					<label class="radio">
-						<radio value="true" :checked="checked" /><text>我已阅读《数钱吧C端版隐私协议》</text>
+						<radio style="transform:scale(0.7)" value="true" :checked="checked" /><text>我已阅读《数钱吧C端版隐私协议》</text>
 					</label>
 				</radio-group>
 			</view>

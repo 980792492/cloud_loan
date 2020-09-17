@@ -1,27 +1,43 @@
 <template>
 	<view class="container">
 		<view class="index-top">
-			<view class="logo">孙先生 13800138000</view>
-			<view class="text-wrap">
-				<view class="text">云好贷 剩余额度(元)</view>
-				<view class="text-buttom">
-					<button class="apply" @click="jumpUrl('/pages/borrowingProcess/index')">立即提款</button>
+			<view v-if='availableQuota'>
+				<view class="logo" v-if='userInfo.realName'>{{userInfo.realName +' '+ userInfo.mobile }}</view>
+				<view class="logo" v-else>您的昵称</view>
+				
+				
+				<view class="text-wrap">
+					<view class="text" >云好贷 剩余额度(元)</view>
+					<view class="text-buttom">
+						<button class="apply" @click="jumpUrl('/pages/borrowingProcess/index')">立即提款</button>
+					</view>
 				</view>
+				<view class="amount">{{availableQuota}}</view>
 			</view>
-			<view class="amount">50,000.00</view>
-			<view class="content">
+			<view v-else>
+				<view class="logo">{{userInfo.userName }}</view>
+				<view class="text-wrap">
+					<view class="text" >您还未获取额度，点击立即申请获取</view>
+					<view class="text-buttom">
+						<button class="apply" @click="jumpUrl('/pages/applycredit/basicinfo/basicinfo')">立即申请</button>
+					</view>
+				</view>
+				<view class="amount">--</view>
+			</view>
+			
+			<view class="content" v-if='availableQuota'>
 				<view class="content-text">
-					<view class="all">授信额度<text class="amount-text">50,000.00</text></view>
-					<view class="used">已用额度<text class="amount-text">10,000.00</text></view>
+					<view class="all">授信额度<text class="amount-text">{{quota}}</text></view>
+					<view class="used">已用额度<text class="amount-text">{{useQuota}}</text></view>
 				</view>
 				<view class="image-content">
-					<button class="record" @click="jumpUrl()('/pages/record/index')">借还记录</button>
+					<button class="record" @click="jumpUrl('/pages/record/index')">借还记录</button>
 					<button class="clear" @click="jumpUrl('/pages/repayment/index')">立即还款</button>
 					<button class="before" @click="jumpUrl('/pages/repayment/advance')">提前结清</button>
 				</view>
 			</view>
 			<view class="operate-wrap">
-				<view class="safe">
+				<view class="safe" @click="jumpUrl('/pages/safecenter/safecenter')">
 					<image class="safe-img" src="../../static/assets/mine_icon01.png"></image>
 					<text class="safe-text">安全中心</text>
 					<text class="safe-text-linlk">修改密码等</text>
@@ -33,7 +49,7 @@
 			</view>
 			
 		</view>
-		<uniBottomNav current="my"></uniBottomNav>
+		<!-- <uniBottomNav current="my"></uniBottomNav> -->
 
 		<uni-popup ref="popup" type="dialog">
 			<view class="content-wrap">
@@ -61,11 +77,23 @@
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
 
-
+	import api from '@/api/apply/index.js'
+	import utils from '@/utils/utils.js'
+	import loginApi from '@/api/login/index.js'
+	
 
 	export default {
 		data() {
 			return {
+				userInfo:{},
+				// this.availableQuota = utils.formatMoney(this.data.availableQuota);
+				// this.quota:''m = utils.formatMoney(this.data.quota)
+				// this.useQuota = utils.formatMoney(this.data.quota - this.data.availableQuota)
+				
+				availableQuota:'',
+				quota:'',
+				useQuota:'',
+				data:{},
 				href: 'https://uniapp.dcloud.io/component/README?id=uniui'
 			}
 		},
@@ -75,16 +103,100 @@
 			uniPopup,
 			uniPopupDialog
 		},
+		onShow(){
+			console.log(3434234324);
+			console.log(uni.getStorageSync('userInfo'));
+			if(!uni.getStorageSync('userInfo') || !(uni.getStorageSync('userInfo').bankName) ){
+				console.log(1234);
+				this.getUserInfo();
+			}else{
+				console.log(1234444);
+				
+				this.userInfo = uni.getStorageSync('userInfo');
+			}
+			
+			// 是否授信
+			this.queryCredit();
+				
+		},
 
 		methods: {
+			
+			//获取用户信息
+		getUserInfo(){
+			const consumerId = uni.getStorageSync('consumerId')
+			
+			loginApi.getUserInfo({consumerId}).then(res =>{
+				console.log(res);
+				
+				if(res.retCode === "000000"){
+					this.userInfo = res.data;
+					console.log(this.userInfo);
+					uni.setStorageSync('userInfo', this.userInfo)
+				}
+				
+			})
+		},
+		
+		
+		
+		// 是否授信
+		queryCredit(){
+			
+			// return false;
+			// this.getQuota();
+			
+			
+			const consumerId = uni.getStorageSync('consumerId')
+			
+			api.queryCredit({consumerId}).then(res => {
+				console.log(res)
+				
+				if(res.retCode === "000000"){
+					this.getQuota();
+				
+				}
+				
+					
+				
+			})
+			
+			
+		},
+			
+			
+			
+			// 获取额度
+			getQuota(){
+				
+				const consumerId = uni.getStorageSync('consumerId')
+				
+				api.getQuotaQuery({consumerId}).then(res => {
+					console.log(888777666555)
+					console.log(res);
+					this.data = res.busiparam;
+					// this.quotaAmount = this.data.availableQuota;
+					
+					this.availableQuota = utils.formatMoney(this.data.availableQuota);
+					this.quota = utils.formatMoney(this.data.quota)
+					let useQuota = this.data.quota - this.data.availableQuota;
+					this.useQuota =useQuota ? utils.formatMoney() : 0;
+					console.log(this.useQuota);
+					
+				})
+			},
+			
+			
 			open() {
 				this.$refs.popup.open()
 			},
 			jumpUrl(url){
+				console.log(3333);
+				console.log(url);
 				uni.navigateTo({
 					url
 				})
-			}
+			},
 		}
 	}
 </script>
@@ -98,10 +210,10 @@
 	}
 
 	.index-top {
-		height: 630upx;
+		height:  454upx;
 		padding: 20upx;
 		/* background: #2393FF; */
-		background: url(../../static/assets/mine_banner01.png) no-repeat;
+		background: url(../../static/assets/bgc.png) no-repeat;
 		background-size: contain;
 	}
 
@@ -147,23 +259,26 @@
 		padding: 0 24upx;
 		padding-top: 53upx;
 		padding-bottom: 53upx;
-		margin-top: 180upx;
+		margin-top: 50upx;
 		background: #FFFFFF;
 		border-radius: 20upx;
 	}
 	.content-text {
 		display: flex;
+		/* justify-content: spa; */
 		font-size: 26upx;
 		color: #333333;
 		padding-bottom: 80upx;
 	}
 	.content-text .all {
-		flex: 1;
+		width: 55%;
+		/* flex: 1; */
 		text-align: left;
 	}
 	.content-text .used {
-		flex: 1;
-		text-align: right;
+		width: 40%;
+		/* flex: 1; */
+		text-align: left;
 	}
 	
 	.content-text .amount-text {

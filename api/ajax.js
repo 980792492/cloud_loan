@@ -1,5 +1,6 @@
 import Ajax from './request'
 
+
 export default {
     /**
      * post 请求

@@ -16,7 +16,7 @@
 	.main{
 		width 100vw
 		height 92vh
-		background url("../../static/assets/审核中icon.png") no-repeat center 37px
+		background url("../../static/assets/under_review.png") no-repeat center 37px
 		padding-top 220px
 		text-align center
 		font-size 16px

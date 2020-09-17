@@ -2,23 +2,23 @@
 	<view class="container">
 		<view class="top-title">借款金额</view>
 		<view class="amountInput">
-			20000.00
+			{{data.amount}}
 		</view>
 		<view class="line"></view>
 		<view>
 			<uni-list>
-				<uni-list-item title="借款总金额" rightText="￥666666.00" :showArrow="false" />
-			    <uni-list-item title="借款期限" rightText="3个月" :showArrow="false" />
-				<uni-list-item title="借款时间" rightText="2019-06-08" :showArrow="false" />
+				<uni-list-item title="借款总金额" :rightText="data.amount1" :showArrow="false" />
+			    <uni-list-item title="借款期限" :rightText="data.periods" :showArrow="false" />
+				<uni-list-item title="借款时间" :rightText="data.periods" :showArrow="false" />
 				<uni-list-item title="还款方式" rightText="等额本息" :showArrow="false" />
 				<uni-list-item title="合同协议" :showArrow="false">
-					<view slot="right">
-						<text style="color: #007AFF;">点击查看</text>
+					<view slot="right" @click='agreeTap'>
+						<text style="color: #007AFF; font-size: 14px;">点击查看</text>
 					</view>
 				</uni-list-item>
 				<uni-list-item title="到账银行" :showArrow="false">
 					<view slot="right">
-						<img class="bank_icon" src="../../static/assets/中国工商银行.png" alt=""><text style="font-size: 14px;color:#333333">工商银行(0608)</text>
+						<img class="bank_icon" :src="userInfo.bankPicUrl" alt=""><text style="font-size: 14px;color:#333333">{{userInfo.bankName + '(' + this.cardNo +  ')'}}</text>
 					</view>
 				</uni-list-item>
 				<uni-list-item title="还款计划" :showArrow="false">
@@ -30,9 +30,9 @@
 		</view>
 		<view class="plan-list" v-show="icontype==='arrowup'">
 			<view class="plan-list-tile">剩余还款计划</view>
-			<view class="plan-list-li" v-for="items in plan">
-				<text>{{items.time}}</text>
-				<text style="font-size: 16px;">{{items.money}}</text>
+			<view class="plan-list-li" v-for="(planItem,planIndex) in data.repayPlanList" :key='planItem.period'>
+				<text>{{planItem.planRepayDate}}</text>
+				<text style="font-size: 16px;">{{planItem.planRepayAmount + '元'}}</text>
 			</view>
 		</view>
 	</view>
@@ -43,10 +43,15 @@
 	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
 	import uniIcons from "@/components/uni-icons/uni-icons.vue"
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
+	import api from '@/api/loan/index.js'
+	
 	export default {
 		components: {uniList,uniListItem,uniPopup,uniIcons},
 		data(){
 			return {
+				agreementUrl:'', //合同url
+				data:{},
+				loanOrderId:'', //订单id
 				amount:'',
 				date: 3,
 				icontype:'arrowdown',
@@ -55,10 +60,74 @@
 					{time:'4月2日', money:'300.00'},
 					{time:'5月2日', money:'200.00'},
 					{time:'6月2日', money:'100.00'}
-				]
+				],
+				userInfo:{},
+				cardNo:''
+				
 			}
 		},
+		onLoad(options){
+			this.userInfo = uni.getStorageSync('userInfo');
+			this.cardNo = this.userInfo.cardNo.substring(this.userInfo.cardNo.length-4,this.userInfo.cardNo.length)
+				
+			this.loanOrderId = options.loanOrderId;
+			this.getAgreement();
+			this.getOrderInfo();
+			
+		},
+		
 		methods: {
+			
+			getOrderInfo(){
+				const consumerId = uni.getStorageSync('consumerId')
+				let params = {
+					consumerId,
+					orderId:this.loanOrderId
+				}
+				api.getLoanOrderInfo(params).then(res => {
+					let data = res.busiparam
+					data.amount1 = '¥' + data.amount;
+					data.periods = data.periods + '个月'
+					this.data = data;
+					console.log(res)
+				})
+			},
+			
+			//查看合同
+			agreeTap(){
+				window.location.href = this.agreementUrl
+			},
+			
+			
+			getAgreement(){
+				const consumerId = uni.getStorageSync('consumerId')
+				
+				let params ={
+					consumerId,
+					applyFlowId:'',
+					loanOrderId:this.loanOrderId,
+					sceneList:['loanSuccess']
+				}
+				api.getAgreement(params).then(res => {
+					this.agreementUrl = res.busiparam[0].url
+					
+					console.log(res);
+				})
+			},
+			
+			getQueryRepayPlan(){
+				const consumerId = uni.getStorageSync('consumerId')
+				let params = {
+					consumerId,
+					loanOrderId:this.loanOrderId,
+					flag:2
+				}
+				api.queryRepayPlan().then(res => {
+					console.log(res);
+				})
+			},
+			
+			
 			changeIcon(){
 				this.icontype = this.icontype === 'arrowup' ? 'arrowdown' : 'arrowup'
 			}
@@ -106,6 +175,7 @@
 		display inline-block
 		width 14px
 		height 14px
+		margin-right 4px
 	}
 	.plan-list{
 		width 350px
@@ -130,5 +200,14 @@
 			height 44px
 			border-bottom 1px dashed  #eee
 		}
+		
+		text{
+			font-size 28upx !important
+			
+		}
+		text:last-child{
+			font-weight 500
+		}
+		
 	}
 </style>

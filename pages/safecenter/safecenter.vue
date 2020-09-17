@@ -1,21 +1,21 @@
 <template>
 	<view class="container">
-		<view class="change-pwd-wrap">
-			<uniFormitem
-			 label='修改登录密码'
-			 placeholder='请输入登录密码'
-			 childTyle='input' isPwd />
-		</view>
-		<view class="button-wrap">
-			<button class="take-sure">确认</button>
-		</view>
-		<uniBottomNav />
+		<uni-list>
+			<uni-list-item @onClick='onClick'  title="修改密码" @click="showDate('popup')" rightText="修改密码"/>
+		
+		</uni-list>
+		
+		
 	</view>
 </template>
 
 <script>
 	import uniBottomNav from "@/components/uni-bottom-nav/uni-bottom-nav.vue"
 	import uniFormitem from "@/components/uni-form-item/uni-form-item.vue"
+	
+	import uniList from "@/components/uni-list/uni-list.vue"
+	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
+	
 	export default {
 		data() {
 			return {
@@ -24,32 +24,25 @@
 		},
 		components: {
 			uniBottomNav,
-			uniFormitem
+			uniFormitem,
+			uniList,
+			uniListItem
 		},
 		methods: {
+			onClick(){
+				uni.navigateTo({
+					url:'/pages/safecenter/changepwd/changepwd'
+				})
+			},
 			
 		}
 	}
 </script>
 
 <style>
-	.container {
-		padding: 48upx;
-		font-size: 14px;
-		line-height: 24px;
+	page{
+		background: #F2F2F2;
 	}
 	
-	.change-pwd-wrap {
-		padding-top: 140upx;
-		padding-bottom: 200upx;
-	}
-	
-	.take-sure {
-		height: 80upx;
-		font-size: 32upx;
-		border-radius: 40upx;
-		background: #2393FF;
-		color: #fff;
-	}
 
 </style>

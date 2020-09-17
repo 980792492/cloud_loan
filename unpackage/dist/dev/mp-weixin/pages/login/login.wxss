@@ -1,0 +1,72 @@
+
+.container {
+	padding: 48rpx;
+	font-size: 14px;
+	line-height: 24px;
+}
+.welcome {
+	color: #4C4C4C;
+	font-size: 40rpx;
+	line-height: 280rpx;
+}
+.login-wrap {
+}
+.forget-pwd-wrap {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	padding-top: 14rpx;
+}
+.forget-pwd {
+	color: #2493FF;
+	font-size: 24rpx;
+}
+.take-login {
+	margin-top: 180rpx;
+}
+.login-button {
+	height: 80rpx;
+	font-size: 32rpx;
+	border-radius: 40rpx;
+	background: #2393FF;
+	color: #fff;
+}
+.uni-form-item {
+	width: 100%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	border-bottom: 1rpx solid #313131;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	padding-top: 30rpx;
+	padding-bottom: 15rpx;
+	line-height: 40rpx;
+}
+.uni-form-item-label {
+	font-size: 36rpx;
+	color: #323232;
+	padding-right: 20rpx;
+}
+.uni-form-item-type {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+}
+.uni-form-item-icon {
+	padding-right: 10rpx;
+	/* font-size: 80upx; */
+}
+.uni-form-item-icon  .icon {
+	font-size: 40rpx;
+	font-weight: 600;
+	color: #4C4C4C;
+}
+

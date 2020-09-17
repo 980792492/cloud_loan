@@ -23,10 +23,12 @@
 			</view>
 		</view>
 		<view class="forget-pwd-wrap">
-			<text class="forget-pwd">忘记密码</text>
+			<text class="forget-pwd" @click='jumpPageTap("/pages/register/register")'>注册</text>
+			<text class="forget-pwd" @click='jumpPageTap("/pages/safecenter/retrievepwd/retrievepwdphone")'>忘记密码</text>
+			
 		</view>
 		<view class="take-login">
-			<button class="login-button" @click="login">立即登录</button>
+			<button class="login-button" @click="loginTap">立即登录</button>
 		</view>
 		<!-- <uni-bottom-nav /> -->
 	</view>
@@ -55,10 +57,20 @@
 		mounted() {
 		},
 		methods: {
+			
+			jumpPageTap(url){
+				console.log(333);
+				uni.navigateTo({
+					url: url
+				
+				})
+			},
 			takeShowPwd() {
 				this.showPwd = !this.showPwd
 			},
-			login(){
+			loginTap(){
+				
+			
 				if(!this.loginUserName){
 					uni.showToast({
 						icon:'none',
@@ -73,6 +85,7 @@
 					})
 					return
 				}
+			
 				api.login({loginUserName:this.loginUserName, loginPassword: md5.hex_md5(this.password)}).then(res => {
 					const {consumerId, loginUserName, token, userId, identityCard} = res.busiparam
 					uni.setStorageSync('consumerId', consumerId)
@@ -80,9 +93,11 @@
 					uni.setStorageSync('token', token)
 					uni.setStorageSync('userId', userId)
 					identityCard && uni.setStorageSync('userId', userId)
-					uni.navigateTo({
-						url:'/'
-					})
+					
+				uni.switchTab({
+					url:'/pages/index/index'
+				})
+					
 				})
 			}
 		}
@@ -105,11 +120,14 @@
 	}
 	
 	.forget-pwd-wrap {
-		padding-top: 14upx;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-top: 28upx;
 	}
 	.forget-pwd {
 		color: #2493FF;
-		font-size: 24upx;
+		font-size: 28upx;
 	}
 	
 	.take-login {

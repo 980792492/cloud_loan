@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "银行绑定",
+  "usingComponents": {
+    "uni-steps": "/components/uni-steps/uni-steps",
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "uni-formitem": "/components/uni-form-item/uni-form-item"
+  }
+}
