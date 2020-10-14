@@ -262,7 +262,40 @@
 			lbPicker
 		},
 		methods: {
-			
+			// 获取设备id
+			getClientId() {
+					//获取客户端ID和版本号
+					var clientid = '';
+					// #ifdef APP-PLUS
+					// 苹果系统
+					plus.device.getInfo({
+						success: function(e) {
+							clientid = e.uuid;
+							uni.setStorageSync('clientid', clientid);
+						},
+						fail: function(e) {
+							console.log(e);
+						}
+					});
+					// 安卓系统
+					plus.device.getAAID({
+						success: function(e) {
+							clientid = e.aaid;
+							console.log(clientid);
+							uni.setStorageSync('clientid', clientid);
+						},
+						fail: function(e) {
+							console.log(e);
+						}
+					});
+					//老版本、安卓模拟器
+					if (clientid == '') {
+						clientid = plus.device.uuid;
+						uni.setStorageSync('clientid', clientid);
+					}
+					// #endif
+					return clientid;
+				},
 			// 跳转下一页
 			goPageTap() {
 				
@@ -426,7 +459,7 @@
 					contactPhone:this.form.emergencyContactMobile, //紧急联系人手机号
 					contactType:this.form.contactType, //紧急联系人关系
 					clientIp: '192.168.2.3', //手机ip
-					clientDeviceId:'23432423432', //客户端设备号:idfa、imei等
+					clientDeviceId:this.getClientId(), //客户端设备号:idfa、imei等
 					clientOsType:'android',//客户端操作系统:android、ios、h5、pc等
 					customerManagerPhone:''	
 				}
