@@ -25,10 +25,16 @@ export default {
 		getParamByKey: "/yhdapp/parammanager/getParamByKey", //查配置数据查询-- 根据Key查询单个实体记录  例子 注册协议名称的key： YHDSCHEME  ；
 		createBasicInformation: "/yhdapp/creditmanage/createBasicInformation", // 授信申请,信息保存 创建申请流程，填写基础信息
 		faceDetectImage: "/yhdapp/creditmanage/faceDetectImage", // 人脸识别照片上传
+		getOperationmng:"/yhdapp/operationmng/checkValid", //获取通话记录
 		upload: "/yhdapp/fileupload/upload", // 图片上传
 		verificationServiceCode: "/yhdapp/operationmng/loginStep", //运营商密码
-		loginVerificationCode:"/yhdapp/operationmng/getLoginPicCodeUrl",  //获取图型验证码
-		verificationCode:"/yhdapp/operationmng/sendLoginMsgCode",   //获取验证码
+		loginOperators:"/yhdapp/operationmng/loginOperators", //首次 登陆运营商
+		againLoginOperators: "/yhdapp/operationmng/crawl", //二次登陆运营商
+		loginVerificationCode:"/yhdapp/operationmng/getLoginPicCodeUrl",  //首次 获取图型验证码
+		againLoginVerificationCode:"/yhdapp/operationmng/getCrawlPicCode",//二次 获取图形验证码
+		
+		verificationCode:"/yhdapp/operationmng/sendLoginMsgCode",   //首次 获取验证码
+		againVerificationCode:"/yhdapp/operationmng/sendCrawlMsgCode",//二次获取验证码
 		operatorsLogin: "/yhdapp/operationmng/crawl", //登录确认运营商信息
 		bankVerificationCode: '/yhdapp/creditmanage/sendDebitCardCode'  ,//获取银行卡手机号验证码
 		bindBankCard: '/yhdapp/creditmanage/bindDebitCard', //银行卡号码

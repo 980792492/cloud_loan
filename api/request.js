@@ -19,6 +19,7 @@ export default function Ajax(opts, error, config) {
         uni.showLoading(options)
     }
 	return new Promise((resolve, reject) => {
+		console.log(BASE_URL + url);
         uni.request({
 			// url:url,
 			url: BASE_URL + url,

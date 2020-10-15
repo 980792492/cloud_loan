@@ -105,6 +105,15 @@
 						<image class="icon-right" src="../../../static/assets/02right.png"></image>
 					</view>
 				</view>
+				
+				<view class="uni-form-item">
+					<view class="uni-form-item-label">客户经理编号</view>
+					<view class="uni-form-item-type">
+						<input type="text" placeholder='请输入客户经理编号(非必填)' v-model='form.customerManagerPhone' />
+					</view>
+					<view class="uni-form-item-icon">
+					</view>
+				</view>
 			</view>
 		</view>
 		<view class="goto-next-wrap">
@@ -205,12 +214,9 @@
 					address:'', //门牌号
 					relationshipValue:'',//选中关系
 					contactType:'', //选中关系id
-					
 					emergencyContactName:'',  //紧急联系人姓名
 					emergencyContactMobile:'', //紧急联系人手机号
-					
-					
-					
+					customerManagerPhone:'', //客户经理人编号
 				},
 			
 				relationshipData:[  //关系列表
@@ -461,7 +467,8 @@
 					clientIp: '192.168.2.3', //手机ip
 					clientDeviceId:this.getClientId(), //客户端设备号:idfa、imei等
 					clientOsType:'android',//客户端操作系统:android、ios、h5、pc等
-					customerManagerPhone:''	
+					customerManagerPhone:this.form.customerManagerPhone,
+						
 				}
 				
 				console.log(this.form);

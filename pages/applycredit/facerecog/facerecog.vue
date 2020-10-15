@@ -50,6 +50,8 @@
 	import {BASE_URL} from '@/api/api.js'
 	
 	
+	
+	
 
 	export default {
 		data() {
@@ -107,6 +109,8 @@
 									consumerId
 								}).then(res => {
 									
+									
+									
 									if(res.retCode === '000000'){
 										
 										uni.showToast({
@@ -115,23 +119,17 @@
 										})
 										
 										setTimeout(()=>{
-											uni.navigateTo({
-												url: "/pages/applycredit/operateorcertificatiopn/operateorcertificatiopn"
-											})
-										},2000)
+											// 获取通话记录
+											_self.getOperationmng();
+										},2500)
+										
+										
+										
+									
 										
 										
 									}
 									
-				
-									// personImg:'', //身份证正面
-									// countryImg:'' ,//身份证反面
-				// 					if (type === 'person') {
-				// 						_self.personImg = tempFilePath
-				// 					} else {
-				// 						_self.countryImg = tempFilePath
-				
-				// 					}
 									console.log(777777);
 									console.log(res)
 								})
@@ -145,6 +143,37 @@
 							
 			},
 
+// 获取通话记录
+			getOperationmng(){
+				
+			
+			const consumerId = uni.getStorageSync('consumerId')
+			
+				api.getOperationmng({consumerId}).then(res => {
+					console.log(res);
+					if(res.busiparam.isValid === 0){ //有效
+						uni.navigateTo({
+							url: "/pages/applycredit/operateorcertificatiopn/operateorcertificatiopn"
+						})
+					}else if(res.busiparam.isValid === 1){
+						uni.navigateTo({
+							url: "/pages/applycredit/bindback/bindback"
+						})
+						
+					}else{
+						
+						uni.showToast({
+							title:res.retMsg,
+							icon:'none'
+						})
+					}
+					return false;
+				
+				})
+			
+				
+			
+			},
 		}
 	}
 </script>

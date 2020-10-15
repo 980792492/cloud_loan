@@ -10,6 +10,15 @@ export default {
 	    })
 	},
 	
+	//  获取运营商通话记录
+	getOperationmng(param){
+		return ajax.payload({
+		  url:url.applycredit.getOperationmng,
+		  data: param
+		})
+		
+	},
+	
 	// 获取输入数据
 	incomeData(param) {
 	    return ajax.get({
@@ -34,18 +43,49 @@ export default {
 		
 	},
 	
-	// 图片验证码
+	// 首次 登陆运营商
+	loginOperators(params){
+		return ajax.payload({
+			url:url.applycredit.loginOperators,
+			data:params
+		})
+	},
+
+	// 二次 登陆运营商
+	againLoginOperators(){
+		return ajax.payload({
+			url:url.applycredit.againLoginOperators,
+			data:params
+		})
+	},
+	
+	
+	// 首次 图片验证码
 	loginVerificationCode(param){
 		return ajax.payload({
 		  url:url.applycredit.loginVerificationCode,
 		  data: param
 		})
 	},
+	//二次获取 图片验证码
+	againLoginVerificationCode(param){
+		return ajax.payload({
+		  url:url.applycredit.againLoginVerificationCode,
+		  data: param
+		})
+	},
 	
-	// 获取验证码
+	//首次 获取验证码
 	verificationCode(param){
 		return ajax.payload({
 		  url:url.applycredit.verificationCode,
+		  data: param
+		})
+	},
+	//二次 获取验证码
+	againVerificationCode(param){
+		return ajax.payload({
+		  url:url.applycredit.againVerificationCode,
 		  data: param
 		})
 	},
