@@ -3,7 +3,7 @@
 		<view class='header'>
 			<view class="top-title">借款金额(元)</view>
 			<view class="amountInput">
-				<text class="amount">{{data.amount}}</text>
+				<text class="amount">{{data.amount1}}</text>
 			</view>
 		</view>
 		
@@ -270,6 +270,8 @@
 					console.log(res);
 					if(res.retCode === "000000"){
 						this.data = res.busiparam;
+						this.data.amount1 = this.data.amount / 100;
+						
 						console.log(this.data);
 						console.log(999988877776666)
 						this.state = true;

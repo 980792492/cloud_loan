@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "运营商认证",
-  "usingComponents": {
-    "uni-steps": "/components/uni-steps/uni-steps",
-    "uni-formitem": "/components/uni-form-item/uni-form-item"
-  }
-}

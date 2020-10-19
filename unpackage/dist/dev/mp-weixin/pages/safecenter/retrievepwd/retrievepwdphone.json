@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "找回密码",
-  "usingComponents": {
-    "uni-popup": "/components/uni-popup/uni-popup",
-    "uni-bottom-nav": "/components/uni-bottom-nav/uni-bottom-nav",
-    "uni-formitem": "/components/uni-form-item/uni-form-item",
-    "uni-popup-dialog": "/components/uni-popup/uni-popup-dialog"
-  }
-}

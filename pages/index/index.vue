@@ -137,20 +137,15 @@
 					consumerId
 				}).then(res => {
 					console.log(res)
-
 					if (res.retCode === "000000") {
 
-
 					}
-
-
-
 				})
-
-
 			},
 
 			open() {
+				console.log(3333);
+			
 				const consumerId = uni.getStorageSync('consumerId')
 				const identityCard = uni.getStorageSync('identityCard')
 				if (consumerId) {
@@ -167,10 +162,10 @@
 						} else {
 							let busiparam = res.busiparam;
 
-							if (busiparam.canAppy === 1) {
+							if (busiparam.isCredit=== 1) {
 								//已授信
 								this.$refs.popup.open()
-							} else if (busiparam.isCredit === 1) {
+							} else if (busiparam.canAppy === 1) {
 								uni.navigateTo({
 									url: '/pages/applycredit/applycredit'
 								})

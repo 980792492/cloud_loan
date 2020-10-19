@@ -3,11 +3,10 @@
 		<view class="top-title">借款金额</view>
 		<view class="amountInput">
 			<input class="uni-input" v-model="amount" placeholder-class='palceholderStyle' minLength='4' :maxlength="quotaAmountLen" type="number" @input="amountChangeTap" :placeholder="placeholderText"  />
-			<icon v-show="amount!=''"  @click="amount=''" class="clear-input" type="clear" size="26"/>
+			<icon v-show="amount!=''"  @click="clearTap" class="clear-input" type="clear" size="26"/>
 		</view>
 		<view class="line"></view>
 		<view class="content"></view>
-		
 		
 		<view class="basic-info" v-if='state'>
 			<view class="uni-form-item"  @click="showDate('popup')">
@@ -41,7 +40,7 @@
 			<view class="uni-form-item"  @click="showDate('popup1')">
 				<view class="uni-form-item-label">还款计划</view>
 				<view class='right-info'>
-					<view class="label">{{'首期' + data.repayPlanList[0].planRepayDate + ' 应还¥' + data.repayPlanList[0].planRepayAmount}}</view>
+					<view class="label">{{'首期' + repayPlan.repayPlanDate + ' 应还¥' + repayPlan.repayAmount}}</view>
 					<view class="uni-form-item-icon">
 						<image class="icon-right" src="../../static/assets/02right.png"></image>
 					</view>
@@ -177,8 +176,8 @@
 					<view class="popup-center-title">还款计划<icon @click="hideDate('popup1')" class="close-btn" type="clear" size="26"/></view>
 					<view class="popup-center-list">
 						<view class="popup-center-li popup-center-plan" v-for="(repayPlanItem,repayPlanIndex) in data.repayPlanList" :key='repayPlanItem.period' >
-							<text class="time">{{repayPlanItem.planRepayDate}}</text>
-							<text class="amount">{{repayPlanItem.planRepayAmount}}元</text>
+							<text class="time">{{repayPlanItem.repayPlanDate}}</text>
+							<text class="amount">{{repayPlanItem.repayAmount/100}}元</text>
 						</view>
 					</view>
 				</view>
@@ -225,6 +224,9 @@
 		components: {uniList,uniListItem,uniPopup},
 		data(){
 			return {
+				repayPlan:{
+					
+				},
 				verificationCode:'',
 				quotaAmountLen:0,
 				quotaAmount1:'',
@@ -292,6 +294,47 @@
 			
 		},
 		methods: {
+			clearTap(){
+				this.amount=''
+				this.state =false;
+			},
+			
+			// 获取设备id
+			getClientId() {
+					//获取客户端ID和版本号
+					var clientid = '';
+					// #ifdef APP-PLUS
+					// 苹果系统
+					plus.device.getInfo({
+						success: function(e) {
+							clientid = e.uuid;
+							uni.setStorageSync('clientid', clientid);
+						},
+						fail: function(e) {
+							console.log(e);
+						}
+					});
+					// 安卓系统
+					plus.device.getAAID({
+						success: function(e) {
+							clientid = e.aaid;
+							console.log(clientid);
+							uni.setStorageSync('clientid', clientid);
+						},
+						fail: function(e) {
+							console.log(e);
+						}
+					});
+					//老版本、安卓模拟器
+					if (clientid == '') {
+						clientid = plus.device.uuid;
+						uni.setStorageSync('clientid', clientid);
+					}
+					// #endif
+					return clientid;
+				},
+		
+			
 			
 			// 获取验证码
 			getVerificationCode(){
@@ -402,7 +445,7 @@
 					if(this.amount > this.quotaAmount1){
 						
 						uni.showToast({
-							title:`最高可借${this.quotaAmount}元`,
+							title:`最高可借${this.quotaAmount / 100}元`,
 							icon:'none'
 						})
 						this.state = false;
@@ -446,19 +489,35 @@
 			getComputeRepayPlan(){
 				
 				let params = {
-					amount: this.amount,
+					amount: parseFloat(this.amount)*100,
 					periods: this.instalment,
 					orderId:''
 				}
+				console.log(params);
+				console.log('99999999')
 				
 				api.computeRepayPlan(params).then(res => {
 					console.log(res);
 					if(res.retCode === "000000"){
 						this.data = res.busiparam;
 						console.log(this.data);
+						console.log(this.data.repayPlanList)
+						this.repayPlan = {
+							repayPlanDate:this.data.repayPlanList[0].repayPlanDate,
+							repayAmount: (this.data.repayPlanList[0].repayAmount) / 100
+						}
+						console.log(this.repayPlan);
+						console.log(this.repayPlan.repayPlanDate);
+						// this.repayPlanDate = this.data.repayPlanList[0].repayPlanDate;
+						// this.repayAmount = (this.data.repayPlanList[0].repayAmount) / 100;
 						console.log(999988877776666)
 						this.state = true;
 						
+					}else{
+						uni.showToast({
+							icon:'none',
+							title:res.retMsg
+						})
 					}
 					
 				})
@@ -483,10 +542,10 @@
 				
 				let params = {
 					consumerId,
-					amount:this.amount,
+					amount:this.amount * 100,
 					periods: this.instalment,
 					clientIp:'192.168.1.1',
-					clientDeviceId:'1111',
+					clientDeviceId:this.getClientId(),
 					clientOsType:'android',
 					captchaCode: this.verificationCode
 					
@@ -773,6 +832,17 @@
 			position absolute
 			right 10px
 		}
+		
+		&-list{
+			width 100%
+			height 391px
+			// background #007AFF
+			overflow-y:auto
+			overflow:auto
+
+			
+		}
+		
 		&-li{
 			width 100%
 			height 44px

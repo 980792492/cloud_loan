@@ -90,14 +90,7 @@ export default {
 		})
 	},
 	
-	// 运营商信息登录
-	verificationCode(param){
-		return ajax.payload({
-		  url:url.applycredit.operatorsLogin,
-		  data: param
-		})
-	},
-	
+
 	// 银行卡手机号验证
 	bankVerificationCode(param){
 		return ajax.payload({

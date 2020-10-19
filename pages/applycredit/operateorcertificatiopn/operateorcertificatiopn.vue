@@ -241,6 +241,7 @@
 			// 下一步
 			handleTap() {
 
+				const consumerId = uni.getStorageSync('consumerId')
 
 				if (this.operatorCertiType === 0) {
 					if (!this.phone) {
@@ -344,7 +345,6 @@
 						this.operatorCertiType = 2;
 						this.getLoginVerificationCode(1);
 					} else if (res.busiparam.nextInput === 3) {
-
 						this.operatorCertiType = 3;
 					} else if (res.busiparam.nextInput === 4) {
 						this.operatorCertiType = 4;
@@ -453,13 +453,20 @@
 
 			// 获取验证码
 			getVerificationCode() {
-				if (!this.loginVerificationCode) {
-					uni.showToast({
-						icon: 'none',
-						title: '请输入图形验证码',
-					});
-					return false;
+				
+				console.log(333333);
+				
+				if(this.operatorCertiType === 4 || this.operatorCertiType ===5){
+					
+					if (!this.loginVerificationCode) {
+						uni.showToast({
+							icon: 'none',
+							title: '请输入图形验证码',
+						});
+						return false;
+					}
 				}
+			
 				const consumerId = uni.getStorageSync('consumerId')
 
 				if (this.state === 1) {
