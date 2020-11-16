@@ -4,7 +4,7 @@
 		<view class="main">
 			<view class="main-title">{{data.mark}}</view>
 			<!-- <view class="main-title norepay">逾期未还</view> -->
-			<view class="main-money"><text>￥{{data.payMoney}}</text>
+			<view class="main-money"><text>￥{{data.payMoney/100}}</text>
 		<!--	<uni-icons @click="changeIcon" color="#aaa"  type="arrowright" size="24">-->
 			</uni-icons></view>
 			<button type="primary" class="loan-btn" @click="loan">去还款</button>
@@ -17,7 +17,7 @@
 				<view class="surplus-list-li" v-for="items in data.repayPlanList" :key='items.period'>
 					<text>{{items.planRepayDate}}</text>
 					<view>
-						<text style="font-size: 16px;">{{items.planRepayPrincipal}}</text>
+						<text style="font-size: 16px;">{{items.planRepayAmount/100}}</text>
 						<uni-icons @click="changeIcon" color="#aaa"  type="arrowright" size="20"></uni-icons>
 					</view>
 				</view>
@@ -96,18 +96,7 @@
 				uni.navigateTo({
 					url:'/pages/repayment/advance?flag=1'
 				})
-				uni.showModal({
-				    content: '太久未使用，授信过期啦，请重新完成授信流程再次尝试',
-					cancelText:'关闭',
-					confirmText:'重新授信',
-				    success: function (res) {
-				        if (res.confirm) {
-				            console.log('用户点击确定');
-				        } else if (res.cancel) {
-				            console.log('用户点击取消');
-				        }
-				    }
-				});
+			
 			}
 		}
 	}

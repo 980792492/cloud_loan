@@ -60,6 +60,14 @@ export default {
 		})
 	},
 	
+	//提前结清
+	repayment(param){
+		return ajax.payload({
+		  url:url.loan.repayment,
+		  data: param
+		})
+	},
+	
 	
 	
 	

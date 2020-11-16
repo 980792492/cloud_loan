@@ -359,7 +359,7 @@
 				
 				api.getCreditExtensionState({consumerId}).then(res => {
 					console.log(res);
-					let state = res.busiparam.state;
+					let state = res.busiparam.status;
 					let url;
 					if(state === 'approving'){ //审批中
 						url = "/pages/applycredit/applyverdify/applyverdify";
@@ -371,9 +371,7 @@
 						
 					}
 					
-					
-					url = "/pages/myamount/myamount";
-					
+									
 					uni.navigateTo({
 						url: url
 					})

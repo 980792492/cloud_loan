@@ -13,7 +13,7 @@
 			<uni-list>
 			    <uni-list-item title="借款期限"  :rightText="data.periods+'个月'" :showArrow="false"  />
 			    <uni-list-item title="月利率" :rightText="data.interestRate + '%'" :showArrow="false" />
-				<uni-list-item title="总利息" :rightText="'¥' + data.interest" :showArrow="false"  />
+				<uni-list-item title="总利息" :rightText="'¥' + data.interest/100" :showArrow="false"  />
 				<!-- <uni-list-item title="还款计划" :rightText="'首期' + data.repayPlanList[0].planRepayDate + ' 应还¥' + data.repayPlanList[0].planRepayAmount" @click="showDate('popup1')"/> -->
 				<uni-list-item title="银行卡" :showArrow="false" >
 					<view slot="right">
@@ -21,6 +21,9 @@
 						<text style="font-size: 14px;">{{debitCardData.bankName}}</text>
 					</view>
 				</uni-list-item>
+				
+				<uni-list-item v-if='customerManagerPhone' title="客户经理手机号" :rightText="customerManagerPhone" :showArrow="false"  />
+				
 			</uni-list>
 		</view>
 	
@@ -28,7 +31,7 @@
 			<text>立即借款</text>
 		</view> -->
 		<button  class="loan-btn"  @click="nowLoan">立即借款</button>
-		<view>
+	<!-- 	<view>
 			<uni-popup ref='popup' type='bottom'>
 				<view class="popup-center">
 					<view class="popup-center-title">借款期限<icon @click="hideDate('popup')" class="close-btn" type="clear" size="26" showArrow='false' /></view>
@@ -75,7 +78,7 @@
 				<icon @click="hideDate('popup2')" class="agree-close"  type="cancel" color="#fff" size="36"/>
 			</uni-popup>
 		</view>
-	
+	 -->
 	</view>
 </template>
 
@@ -91,7 +94,7 @@
 		components: {uniList,uniListItem,uniPopup},
 		data(){
 			return {
-			
+			customerManagerPhone:'',
 				agreementState:false,
 				debitCardData:{}, //银行信息
 				data:{
@@ -123,10 +126,13 @@
 			}
 		},
 		onLoad(options){
-			this.orderId = options.orderId;
 			
-			this.getParamsByType(); //获取分期数
-			this.getQuota(); //获取额度
+			console.log(1111111111);
+			console.log(options);
+			this.orderId = options.orderId;
+			this.customerManagerPhone = options.customerManagerPhone || "";
+			// this.getParamsByType(); //获取分期数
+			// this.getQuota(); //获取额度
 			this.getDebitCard(); //获取银行信息
 			this.getOrderInfo(this.orderId);  //获取订单信息
 			
@@ -157,17 +163,34 @@
 				
 			},
 			
+			
+			
 			// 获取订单信息
 			getOrderInfo(orderId){
 				const consumerId = uni.getStorageSync('consumerId')
-				
 				let params = {
-					consumerId,
-					orderId:orderId
+					loanOrderId:orderId
 				}
+				
+				console.log(55555555555);
+				console.log(params);
 				api.queryOrderNew(params).then(res => {
+					console.log(res);
+					console.log(res.retCode)
+					console.log(res.busiparam);
+		
+					
+					console.log(8787878234324);
+					let data = res.busiparam
+					console.log(data);
+					
+					data.amount1= (data.amount / 100) + '元'
+					
+					
+					this.data = data
 					if(res.retCode === "000000"){
-						this.data = res.busiparam
+					
+						console.log(this.data);
 					}
 					
 					console.log(res);
@@ -233,7 +256,6 @@
 				// if(this.amount  < )
 				if(this.amount >= 1000){
 					if(this.amount > this.quotaAmount){
-						
 						uni.showToast({
 							title:`最高可借${this.quotaAmount}元`,
 							icon:'none'
@@ -243,7 +265,7 @@
 						console.log(4444466666888888)
 						
 						this.getComputeRepayPlan();
-						
+			
 					}
 				}else{
 					this.state = false;
@@ -263,7 +285,7 @@
 				let params = {
 					amount: this.amount,
 					periods: this.instalment,
-					orderId:''
+					orderId:this.orderId
 				}
 				
 				api.computeRepayPlan(params).then(res => {
@@ -271,7 +293,6 @@
 					if(res.retCode === "000000"){
 						this.data = res.busiparam;
 						this.data.amount1 = this.data.amount / 100;
-						
 						console.log(this.data);
 						console.log(999988877776666)
 						this.state = true;

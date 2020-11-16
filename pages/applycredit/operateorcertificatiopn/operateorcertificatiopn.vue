@@ -298,6 +298,8 @@
 						smsCode: this.verificationCode,
 						type: this.state
 					}
+					console.log(params);
+					console.log(this.state);
 					if (this.state === 1) {
 						this.loginOperators(params)
 					} else {
@@ -371,10 +373,21 @@
 
 
 			// 二次 登陆运营商
-			againLoginOperators() {
+			againLoginOperators(params) {
 				api.againLoginOperators(params).then(res => {
 					console.log(res);
-					this.handle(res);
+					
+					if(res.retCode === '000000'){
+						uni.navigateTo({
+							url: "/pages/applycredit/bindback/bindback"
+						})
+					}else{
+						uni.showToast({
+							title:res.retMsg,
+							icon:'none'
+						})
+						
+					}
 
 				})
 
@@ -453,9 +466,12 @@
 
 			// 获取验证码
 			getVerificationCode() {
+				this.verificationCode = '';
+				
 				
 				console.log(333333);
-				
+				console.log(this.operatorCertiType );
+				console.log(this.state);
 				if(this.operatorCertiType === 4 || this.operatorCertiType ===5){
 					
 					if (!this.loginVerificationCode) {
@@ -481,10 +497,13 @@
 						this.setInterval = setInterval(() => {
 							console.log(4444);
 							if (time === 0) {
+								console.log(5555)
 								// time = 60;
 								this.time = 60;
 								clearTimeout(this.setInterval);
 							} else {
+								console.log(6666)
+								
 								time--;
 								this.time = time;
 							}
@@ -506,9 +525,12 @@
 							console.log(4444);
 							if (time === 0) {
 								// time = 60;
+								console.log(6)
 								this.time = 60;
 								clearTimeout(this.setInterval);
 							} else {
+								console.log(7)
+								
 								time--;
 								this.time = time;
 							}

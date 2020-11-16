@@ -52,7 +52,7 @@ export default {
 	},
 
 	// 二次 登陆运营商
-	againLoginOperators(){
+	againLoginOperators(params){
 		return ajax.payload({
 			url:url.applycredit.againLoginOperators,
 			data:params
@@ -151,6 +151,14 @@ export default {
 		})
 	},
 	
+	//获取客户经理手机号
+	getCustomerManagerPhone(param){
+		return ajax.get({
+		 url:url.borrowingProcess.customerManagerPhone,
+		 data:param
+		})
+	},
+	
 	// 获取已绑定银行卡
 	getDebitCard(param){
 		return ajax.payload({
@@ -168,6 +176,16 @@ export default {
 		})
 		
 	},
+	
+
+	// 查询订单状态
+	queryOrderLocalStatus(param){
+		return ajax.get({
+		  url:url.borrowingProcess.queryOrderLocalStatus,
+		  data: param
+		})	
+	},
+	
 	//发送网联签约短信验证码
 	sendSignCode(param){
 		return ajax.payload({

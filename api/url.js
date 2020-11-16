@@ -5,6 +5,7 @@ export default {
 	 * */
 	login:{
 		appLogin: '/yhdapp/userManager/applogin', //1.账号密码登入接口
+		loginout: '/yhdapp/userManager/logout', //账号退出登陆
 		sendAuthCode: "/yhdapp/userManager/sendAuthCode", // 注册登入验证码
 		saveAppUser: "/yhdapp/userManager/saveAppUser", //app注册人员保存,
 		rewriteAppPwd: "/yhdapp/userManager/rewriteAppPwd", //忘记密码后找回密码
@@ -48,8 +49,10 @@ export default {
 	borrowingProcess:{
 		lendingQuotaOfPlatform: "/yhdapp/loanmng/quotaQuery",  //获取借款额度
 		computeRepayPlan: "/yhdapp/loanmng/computeRepayPlan", //测算还款计划
+		customerManagerPhone: '/yhdapp/creditmanage/getRelationCustomerManagerPhone', //查询客户经理电话
 		getDebitCard: "/yhdapp/creditmanage/getDebitCard", //测算还款计划
 		createOrder: "/yhdapp/loanmng/createOrder", //创建借款订单
+		queryOrderLocalStatus:"/yhdapp/loanmng/queryOrderLocalStatus", //查询订单状态
 		queryOrderNew:"/yhdapp/loanmng/queryOrderNew", //获取订单信息
 		sendSignCode:"/yhdapp/loanmng/sendSignCode", //发送网联签约短信验证码
 		checkNeedUnionSign:"/yhdapp/loanmng/checkNeedUnionSign", //确认是否需要网联签约
@@ -67,6 +70,7 @@ export default {
 		getLoanOrderInfo: "/yhdapp/loanmng/getLoanOrderInfo", //获取借款详情
 		toGetreplayInfo: "/yhdapp/repaymentmng/toGetreplayInfo", //获取提前结清数据
 		allRepayment:"/yhdapp/repaymentmng/allRepayment", //提前结清
+		repayment:"/yhdapp/repaymentmng/repayment", //还当期
 	},
 	
 	

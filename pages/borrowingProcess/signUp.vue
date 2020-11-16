@@ -5,7 +5,7 @@
 				<view class="signUpList-li-left">所属银行</view>
 				<view  class="signUpList-li-right">
 					<!-- <img class="bank_icon" src="../../static/assets/gsyh.png" alt=""> -->
-				<text>{{userInfo.bankName}}</text>
+				<text>{{userInfo.bankName}}</text>				
 				</view>
 			</view>
 			<view class="signUpList-li">
@@ -16,7 +16,15 @@
 				<view  class="signUpList-li-left">短信验证码</view>
 				<view class="signUpList-li-right getNote">
 					<input type="text" v-model="mesCode">
-					<!-- <text class="getNote-btn">获取短信验证码</text> -->
+			<!-- 		<view class="forget-pwd" v-if='time == 60' @click='getVerificationCode'>
+							{{timeText}}
+						</view>
+						<view class="forget-pwd forget-pwd1" v-else-if='time != 60' >
+							重新发送 {{time}} S
+						</view> -->
+						
+					
+					
 					
 					<view class="forget-pwd" v-if='time === 60' @click='getVerificationCode'>
 						获取验证码
@@ -24,6 +32,9 @@
 					<view class="forget-pwd forget-pwd1" v-else>
 						重新发送 {{time}} S
 					</view>
+					
+				
+					
 				</view>
 			</view>
 		</view>
@@ -40,16 +51,16 @@
 	export default {
 		data() {
 			return {
-				userInfo:{
-					
-				},
+			
 				signOrderId:'', //签约流程id
 				mesCode:'', //验证码
 				time:60,
+				timeText:'获取验证码',
 				debitCardData:{},
 				formatMobile:'',
 				mobile:'',
 				orderId:'',
+				customerManagerPhone:'',
 				userInfo:{}, //用户信息
 				
 			};
@@ -58,6 +69,8 @@
 			this.userInfo = uni.getStorageSync('userInfo');
 			
 			this.orderId = options.orderId;
+			this.customerManagerPhone =options.customerManagerPhone;
+			
 			this.mobile = uni.getStorageSync('loginUserName');
 			console.log(this.mobile);
 			
@@ -99,9 +112,49 @@
 				api.unionSign(params).then(res => {
 					if(res.retCode === "000000"){
 						uni.navigateTo({
-							url:`/pages/borrowingProcess/confirmLoan?orderId=${this.orderId}`
+							url:`/pages/borrowingProcess/confirmLoan?orderId=${this.orderId}&customerManagerPhone=${this.customerManagerPhone}`
 						})
 					}
+				})
+				
+			},
+			
+			//确认是否需要网联签约
+			checkNeedUnionSign(){
+				const consumerId = uni.getStorageSync('consumerId')
+				
+				let params = {
+					consumerId,
+					loanOrderId:this.orderId,
+					
+					
+				}
+				console.log(params);
+				api.checkNeedUnionSign(params).then(res => {
+					
+			
+					if(res.retCode === "000000"){
+						
+						if(res.busiparam.needSign === 1){
+							uni.showToast({
+								title:'请重新提交',
+								icon:'none'
+							})
+						
+						}else{
+							let url = `/pages/borrowingProcess/confirmLoan?orderId=${this.orderId}&customerManagerPhone=${this.customerManagerPhone}`
+						uni.navigateTo({
+							url:url
+						})
+						}
+						
+						console.log(res);
+						
+					
+						
+					}
+				
+					
 				})
 				
 			},
@@ -123,6 +176,7 @@
 			
 			// 获取验证码
 			getVerificationCode(){
+				
 			
 				const consumerId = uni.getStorageSync('consumerId')
 				let params  = {
@@ -130,7 +184,7 @@
 				}
 				
 				api.sendSignCode(params).then(res => {
-					
+							
 						if(res.retCode === "000000"){
 							this.signOrderId = res.busiparam.signOrderId;
 							console.log(res);
@@ -235,7 +289,7 @@
 		}
 		 .forget-pwd1 {
 			color: #ccc;
-			width: 160upx;
+			width: 200upx;
 			font-size: 28upx;
 		}
 		

@@ -4,8 +4,6 @@
 			<view v-if='availableQuota'>
 				<view class="logo" v-if='userInfo.realName'>{{userInfo.realName +' '+ userInfo.mobile }}</view>
 				<view class="logo" v-else>您的昵称</view>
-				
-				
 				<view class="text-wrap">
 					<view class="text" >云好贷 剩余额度(元)</view>
 					<view class="text-buttom">
@@ -19,7 +17,7 @@
 				<view class="text-wrap">
 					<view class="text" >您还未获取额度，点击立即申请获取</view>
 					<view class="text-buttom">
-						<button class="apply" @click="jumpUrl('/pages/applycredit/basicinfo/basicinfo')">立即申请</button>
+						<button class="apply" @click="applyTap">立即申请</button>
 					</view>
 				</view>
 				<view class="amount">--</view>
@@ -45,6 +43,10 @@
 				<view class="about-us">
 					<image class="us-img" src="../../static/assets/mine_icon02.png"></image>
 					<text class="us-text">关于我们</text>
+				</view>
+				<view class="about-us" @click='loginoutTap'>
+					<image class="us-img" src="../../static/assets/mine_icon02.png"></image>
+					<text class="us-text">退出登陆</text>
 				</view>
 			</view>
 			
@@ -78,6 +80,9 @@
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
 
 	import api from '@/api/apply/index.js'
+	import indexApi from '@/api/index/index.js'
+	
+	
 	import utils from '@/utils/utils.js'
 	import loginApi from '@/api/login/index.js'
 	
@@ -121,6 +126,78 @@
 		},
 
 		methods: {
+			
+			
+			applyTap() {
+				console.log(3333);
+			
+				const consumerId = uni.getStorageSync('consumerId')
+				const identityCard = uni.getStorageSync('identityCard')
+				if (consumerId) {
+					indexApi.isCredit({
+						consumerId,
+						identityCard: ''
+					}).then(res => {
+						console.log(res);
+						if (res.retCode === '4001') {
+							uni.navigateTo({
+								url: '/pages/applycredit/basicinfo/basicinfo'
+							})
+			
+						} else {
+							let busiparam = res.busiparam;
+			
+							if (busiparam.isCredit === 1) {
+								//已授信
+								this.$refs.popup.open()
+							} else if (busiparam.canAppy === 1) {
+								uni.navigateTo({
+									url: '/pages/applycredit/applycredit'
+								})
+							} else {
+								uni.showToast({
+									icon: 'none',
+									title: '您不能申请，请联系客服'
+								})
+							}
+			
+						}
+			
+			
+					})
+				} else {
+					uni.navigateTo({
+						url: '/pages/login/login'
+					})
+				}
+			},
+			
+			//退出登陆
+			loginoutTap(){
+				
+				
+				uni.showModal({
+					content: '你确定退出账户？',
+					success: function(res) {
+						if (res.confirm) {
+							loginApi.loginout().then(res => {
+								console.log(res);
+								console.log(res.retCode);
+								if(res.retCode === "000000"){
+									uni.clearStorageSync();
+									uni.navigateTo({
+										url: '/pages/login/login'
+									})
+								}
+								
+							})
+							console.log('用户点击确定');
+						}
+					}
+				});	
+			},
+			
+			
 			
 			//获取用户信息
 		getUserInfo(){
@@ -180,7 +257,8 @@
 					this.availableQuota = utils.formatMoney(this.data.availableQuota);
 					this.quota = utils.formatMoney(this.data.quota)
 					let useQuota = this.data.quota - this.data.availableQuota;
-					this.useQuota =useQuota ? utils.formatMoney() : 0;
+					console.log(useQuota);
+					this.useQuota =useQuota ? utils.formatMoney(useQuota) : 0;
 					console.log(this.useQuota);
 					
 				})
@@ -271,12 +349,12 @@
 		padding-bottom: 80upx;
 	}
 	.content-text .all {
-		width: 55%;
+		width: 53%;
 		/* flex: 1; */
 		text-align: left;
 	}
 	.content-text .used {
-		width: 40%;
+		width: 47%;
 		/* flex: 1; */
 		text-align: left;
 	}

@@ -128,6 +128,7 @@
 </script>
 
 <style scoped>
+
 	.uni-nav-bar-text {
 		/* #ifdef APP-PLUS */
 		font-size: 34rpx;

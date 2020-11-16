@@ -3,7 +3,7 @@
 		<uni-nav-bar left-icon="back" style="border-bottom: none" background-color="#007AFF" color="#fff"  right-text="借款记录" title="云好贷" @clickLeft='clickLeft' @clickRight='clickRight'></uni-nav-bar>
 		<view class="main">
 			<view class="main-title">还款处理中...</view>
-			<view class="main-money">￥{{amount}}</view>
+			<view class="main-money">￥{{amount/100}}</view>
 			<view class="main-tips">还款处理中，请耐心等待</view>
 			<view v-if="false" class="main-tips">请留意还款结果短信通知</view>
 		</view>
@@ -40,18 +40,7 @@
 				})
 			},
 			loan(){
-				uni.showModal({
-				    content: '太久未使用，授信过期啦，请重新完成授信流程再次尝试',
-					cancelText:'关闭',
-					confirmText:'重新授信',
-				    success: function (res) {
-				        if (res.confirm) {
-				            console.log('用户点击确定');
-				        } else if (res.cancel) {
-				            console.log('用户点击取消');
-				        }
-				    }
-				});
+				
 			}
 		}
 	}

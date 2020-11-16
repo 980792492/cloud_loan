@@ -10,7 +10,7 @@
 		
 		<view class="basic-info" v-if='state'>
 			<view class="uni-form-item"  @click="showDate('popup')">
-				<view class="uni-form-item-label">月收入</view>
+				<view class="uni-form-item-label">借款期限</view>
 				<view class='right-info'>
 					<view class="label">{{instalment+'个月'}}</view>
 					<view class="uni-form-item-icon">
@@ -32,7 +32,7 @@
 			<view class="uni-form-item" >
 				<view class="uni-form-item-label">总利息</view>
 				<view class='right-info'>
-					<view class="label">{{'¥' + data.interest}}</view>
+					<view class="label">{{'¥' + data.interest/100}}</view>
 			
 				</view>
 			</view>
@@ -96,53 +96,18 @@
 				</view>
 			</view>
 			
+			
+			<view class="uni-form-item"  v-if='customerManagerPhone' >
+				<view class="uni-form-item-label uni-form-item-label1">客户经理手机号</view>
+				<view class='right-info'>
+					<view class="label">{{customerManagerPhone}}</view>	
+				</view>
+			</view>
+			
+			
 		</view>
 		
-	<!-- 	<view v-if='state'>
-			
-			
-			
-			<uni-list>
-				
-			    <uni-list-item title="借款期限" @onClick="showDate('popup')" :rightText="instalment+'个月'" />
-			    <uni-list-item title="月利率" :rightText="data.rate + '%'" :showArrow="false" />
-				<uni-list-item title="总利息" :rightText="'¥' + data.interest" :showArrow="false"  />
-				<uni-list-item title="还款计划" :rightText="'首期' + data.repayPlanList[0].planRepayDate + ' 应还¥' + data.repayPlanList[0].planRepayAmount" @onClick="showDate('popup1')"/>
-				<uni-list-item title="银行卡" :showArrow="false" >
-					<view slot="right"> -->
-						<!-- <img class="bank_icon" src="../../static/assets/gsyh.png" alt=""> -->
-				<!-- 		<text style="font-size: 14px;">{{debitCardData.bankName}}</text>
-					</view>
-				</uni-list-item>
-				<uni-list-item title="金融机构" rightText="小盈金融科技" :showArrow="false" ></uni-list-item>
-				
-				<view class="basic-info">
-					<view class="uni-form-item">
-						<view class="uni-form-item-label">预留手机号</view>
-						<view class="uni-form-item-type">
-							<input placeholder='请输入银行预留手机号' v-model="phone" type="number" />
-						</view>
-						<view class="uni-form-item-icon">
-						</view>
-					</view>
-					<view class="uni-form-item uni-form-item1">
-						<view class="uni-form-item-label">短信验证</view>
-						<view class="uni-form-item-type">
-							<input placeholder='请输入短信验证码' v-model="verificationCode" />
-						</view>
-						<view class="forget-pwd" v-if='time === 60' @click='getVerificationCode'>
-							获取验证码
-						</view>
-						<view class="forget-pwd forget-pwd1" v-else>
-							重新发送 {{time}} S
-						</view>
-					</view>
-				
-					</view>
-				
-			
-			</uni-list>
-		</view> -->
+	
 		<view class="remark" v-if='state'>
 				<view class="icon"  @click='agreementTap'>
 					<!-- 选中 -->
@@ -154,9 +119,7 @@
 				<text class="text">已阅读同意 <text class="text" @click="showDate('popup2')">《相关协议》</text></text>
 			</label>
 		</view>
-		<!-- <view v-if='state' :class="agreementState? 'loan-btn' : 'loan-btn unchecked-btn'"  @click="nowLoan">
-			<text>立即借款</text>
-		</view> -->
+	
 		<button v-if='state' :class="canTakeRegister? 'loan-btn' : 'loan-btn unchecked-btn'"  @click="nowLoan">立即借款</button>
 		<view>
 			<uni-popup ref='popup' type='bottom'>
@@ -224,6 +187,7 @@
 		components: {uniList,uniListItem,uniPopup},
 		data(){
 			return {
+				customerManagerPhone:'', //客户经理手机号
 				repayPlan:{
 					
 				},
@@ -366,7 +330,7 @@
 						if(time === 0){
 							// time = 60;
 							this.time = 60;
-							clearTimeout(this.setInterval);
+							clearInterval(this.setInterval);
 						}else{
 							time--;
 							this.time = time;
@@ -512,6 +476,8 @@
 						// this.repayAmount = (this.data.repayPlanList[0].repayAmount) / 100;
 						console.log(999988877776666)
 						this.state = true;
+						//获取客户经理手机
+						this.getCustomerManagerPhone();
 						
 					}else{
 						uni.showToast({
@@ -523,6 +489,22 @@
 				})
 				
 				
+			},
+			
+			
+			//获取客户经理手机号
+			getCustomerManagerPhone(){
+				console.log(77777)
+				let params = {
+					customerPhone: this.mobile
+				}
+				console.log(params);
+				api.getCustomerManagerPhone(params).then(res => {
+					console.log(res);
+					this.customerManagerPhone =  res.customerManagerPhone
+					console.log(res.retCode);
+					console.log('90898333333333')
+				})
 			},
 			
 			
@@ -545,14 +527,37 @@
 					amount:this.amount * 100,
 					periods: this.instalment,
 					clientIp:'192.168.1.1',
-					clientDeviceId:this.getClientId(),
+					clientDeviceId:this.getClientId(),					
 					clientOsType:'android',
 					captchaCode: this.verificationCode
 					
 				}
+				// clientDeviceId:'80F28490,869999028723032' || this.getClientId(),
+				
+				console.log(params);
 				api.createOrder(params).then(res => {
+					// console.log(3333333333);
+					// console.log(res);
+					
+// 					let res = {
+// 	"busiparam": {
+// 		"outerOrderId": "216869055411519498",
+// 		"expireTime": 0,
+// 		"loanNum": ""
+// 	},
+// 	"retCode": "000000",
+// 	"retMsg": "请求成功"
+// }
+					console.log(`/pages/borrowingProcess/applicationStatus?orderId=${res.busiparam.outerOrderId}&customerManagerPhone=${this.customerManagerPhone}`)
 					if(res.retCode === "000000"){
-						this.checkNeedUnionSign(res.busiparam.orderId); //确认是否需要网联签约
+						
+						
+						uni.navigateTo({
+							url:`/pages/borrowingProcess/applicationStatus?orderId=${res.busiparam.outerOrderId}&customerManagerPhone=${this.customerManagerPhone}`
+						})
+						
+						return false;
+						// this.checkNeedUnionSign(res.busiparam.outerOrderId); //确认是否需要网联签约
 						
 					}
 					console.log(res);
@@ -586,14 +591,16 @@
 					
 					
 				}
+				console.log(params);
 				api.checkNeedUnionSign(params).then(res => {
 					
+			
 					if(res.retCode === "000000"){
 						let url;
 						if(res.busiparam.needSign === 1){
 							url = `/pages/borrowingProcess/signUp?orderId=${loanOrderId}`
 						}else{
-							url = `/pages/borrowingProcess/confirmLoan?orderId=${loanOrderId}`
+							url = `/pages/borrowingProcess/confirmLoan?orderId=${loanOrderId}&customerManagerPhone=${customerManagerPhone}`
 						}
 						
 						console.log(res);
@@ -727,6 +734,14 @@
 	.uni-form-item-label {
 		display: inline-block;
 		width: 180upx;
+		font-size: 28upx;
+		color: #808080;
+		padding-right: 20upx;
+	
+	}
+	.uni-form-item-label1 {
+		display: inline-block;
+		width: 200upx;
 		font-size: 28upx;
 		color: #808080;
 		padding-right: 20upx;

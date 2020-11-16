@@ -9,6 +9,14 @@ export default {
 	    })
 	},
 	
+	// 退出登陆
+	loginout(param){
+		return ajax.get({
+		  url:url.login.loginout,
+		  data: param
+		})	
+	},
+	
 	//发送验证码
 	register(param) {
 		return ajax.payload({

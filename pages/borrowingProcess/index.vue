@@ -64,7 +64,7 @@
 					console.log(res);
 					this.data = res.busiparam;
 					this.quotaAmount = res.busiparam.availableQuota;
-					this.quota = utils.formatMoney(this.quotaAmount)
+					this.quota = this.quotaAmount === 0 ? 0 : utils.formatMoney(this.quotaAmount)
 					console.log(this.quota);
 					this.placeholderText = `最高可借${this.quota}`
 				})
@@ -80,13 +80,21 @@
 			
 			
 			loan(){
-				let timeStr = new Date().getTime() / 1000;
-				console.log(timeStr);
-				console.log(this.data.expireTime);
-				uni.navigateTo({
-					url: '/pages/borrowingProcess/loaning'
-					
-				})
+				if(this.quotaAmount === 0){
+					uni.showToast({
+						title:'暂无额度',
+						icon:'none'
+					})
+					return false;
+				}
+			
+			let timeStr = new Date().getTime() / 1000;
+			console.log(timeStr);
+			console.log(this.data.expireTime);
+			uni.navigateTo({
+				url: '/pages/borrowingProcess/loaning'
+				
+			})
 				return false;
 				if(timeStr <= this.data.expireTime){ //正常
 				uni.navigateTo({

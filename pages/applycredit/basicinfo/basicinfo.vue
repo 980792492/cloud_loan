@@ -187,6 +187,7 @@
 	import uniFormitem from "@/components/uni-form-item/uni-form-item.vue"
 	import api from '@/api/apply/index.js'
 	
+	
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	
 	import lbPicker from '@/components/lb-picker/index.vue'
@@ -259,6 +260,7 @@
 		},
 		onLoad() {
 			this.getParamsByType();
+			this.getCustomerManagerPhone();
 		},
 		components: {
 			uniSteps,
@@ -268,6 +270,25 @@
 			lbPicker
 		},
 		methods: {
+			
+			//获取客户经理手机号
+			getCustomerManagerPhone(){
+				console.log(77777)
+				
+				let params = {
+					customerPhone: uni.getStorageSync('loginUserName')
+				}
+				console.log(params);
+				api.getCustomerManagerPhone(params).then(res => {
+					console.log(res);
+					console.log('+++++++++++')
+					let customerManagerPhone =  res.customerManagerPhone
+					this.form.customerManagerPhone = customerManagerPhone || '';
+					console.log(res.retCode);
+					console.log('90898333333333')
+				})
+			},
+			
 			// 获取设备id
 			getClientId() {
 					//获取客户端ID和版本号
@@ -733,6 +754,10 @@
 
 	.uni-form-item-type span {
 		font-size: 28upx;
+	}
+	textarea{
+		font-size: 28upx;
+		
 	}
 
 

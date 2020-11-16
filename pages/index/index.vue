@@ -79,14 +79,14 @@
 			uniPopupDialog
 		},
 		onShow() {
-			
-			if(!uni.getStorageSync('userInfo') || !(uni.getStorageSync('userInfo').bankName) ){
+
+			if (!uni.getStorageSync('userInfo') || !(uni.getStorageSync('userInfo').bankName)) {
 				console.log(1234);
 				this.getUserInfo();
-			}else{
+			} else {
 				console.log(1234444);
 				console.log(this.userInfo)
-				
+
 				this.userInfo = uni.getStorageSync('userInfo');
 			}
 			// uni.clearStorageSync();
@@ -94,36 +94,96 @@
 			this.queryCredit();
 		},
 		onLoad() {
+			
+			let data1 = [{
+				path: '/index/index1',
+				title: '标题1',
+				icon: 'icon',
+				children: [{
+						path: '/index/index2',
+						title: '标题2',
+						icon: 'icon2',
+						children: [{
+							path: '/index/index3',
+							title: '标题3',
+							icon: 'icon3',
+						}]
+					},
+					{
+							path: '/index/index4',
+							title: '标题4',
+							icon: 'icon4',
+						}
+			
+				]
+			}]
+			
+			let newArr = this.init(data1);
+			console.log(newArr);
 
 
-			//this.getData1();
+		
 
+		
 
 		},
 
 		methods: {
-			
-			
+
+
+
+			init(data) {
+
+					return data.map((item) => {
+						item.meta = {
+							title: item.title,
+							icon: item.icon,
+						}
+						item.component = () => import(`@/views${item.path}`)
+						
+						delete item.title;
+						delete item.icon;
+						
+						if (item.children && item.children.length > 0) {
+							// debugger;
+							item.children = this.init(item.children)
+						}
+						console.log(item)
+						return item
+					})
+
+
+
+
+
+
+
+
+
+			},
+
 			//获取用户信息
-			getUserInfo(){
+			getUserInfo() {
 				const consumerId = uni.getStorageSync('consumerId')
-				
-				loginApi.getUserInfo({consumerId}).then(res =>{
+
+				loginApi.getUserInfo({
+					consumerId
+				}).then(res => {
 					console.log(res);
-					
-					if(res.retCode === "000000"){
+
+					if (res.retCode === "000000") {
 						this.userInfo = res.data;
 						console.log(this.userInfo);
 						uni.setStorageSync('userInfo', this.userInfo)
 					}
-					
+
 				})
 			},
-			
-			
-	
 
-		
+
+
+
+
 
 
 
@@ -145,7 +205,7 @@
 
 			open() {
 				console.log(3333);
-			
+
 				const consumerId = uni.getStorageSync('consumerId')
 				const identityCard = uni.getStorageSync('identityCard')
 				if (consumerId) {
@@ -162,7 +222,7 @@
 						} else {
 							let busiparam = res.busiparam;
 
-							if (busiparam.isCredit=== 1) {
+							if (busiparam.isCredit === 1) {
 								//已授信
 								this.$refs.popup.open()
 							} else if (busiparam.canAppy === 1) {

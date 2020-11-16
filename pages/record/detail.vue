@@ -7,7 +7,7 @@
 		<view class="line"></view>
 		<view>
 			<uni-list>
-				<uni-list-item title="借款总金额" :rightText="data.amount1" :showArrow="false" />
+				<uni-list-item title="借款总金额" :rightText="data.amount" :showArrow="false" />
 			    <uni-list-item title="借款期限" :rightText="data.periods" :showArrow="false" />
 				<uni-list-item title="借款时间" :rightText="data.periods" :showArrow="false" />
 				<uni-list-item title="还款方式" rightText="等额本息" :showArrow="false" />
@@ -32,7 +32,7 @@
 			<view class="plan-list-tile">剩余还款计划</view>
 			<view class="plan-list-li" v-for="(planItem,planIndex) in data.repayPlanList" :key='planItem.period'>
 				<text>{{planItem.planRepayDate}}</text>
-				<text style="font-size: 16px;">{{planItem.planRepayAmount + '元'}}</text>
+				<text style="font-size: 16px;">{{planItem.planRepayAmount/100 + '元'}}</text>
 			</view>
 		</view>
 	</view>
@@ -86,16 +86,28 @@
 				}
 				api.getLoanOrderInfo(params).then(res => {
 					let data = res.busiparam
-					data.amount1 = '¥' + data.amount;
+					let amount = data.amount;
+					data.amount = '¥' + (amount/100);
+					// data.amount1 = '¥' + (amount/100);
 					data.periods = data.periods + '个月'
 					this.data = data;
+					console.log(this.data);
 					console.log(res)
 				})
 			},
 			
 			//查看合同
 			agreeTap(){
-				window.location.href = this.agreementUrl
+				console.log(this.agreementUrl);
+				if(this.agreementUrl){
+					// this.agreementUrl = 'https://www.baidu.com/'
+					let url = encodeURIComponent(this.agreementUrl)
+					console.log(url);
+					console.log(`/pages/webView/index?url=${url}`)
+					uni.navigateTo({
+						url:`/pages/webView/index?url=${url}`
+					})
+				}
 			},
 			
 			
@@ -108,10 +120,17 @@
 					loanOrderId:this.loanOrderId,
 					sceneList:['loanSuccess']
 				}
+				console.log(params);
+				console.log('_____')
 				api.getAgreement(params).then(res => {
-					this.agreementUrl = res.busiparam[0].url
-					
-					console.log(res);
+					console.log(7878787878787878)
+					let data = res.busiparam;
+					data.forEach(val  => {
+						if(val.title === "借款合同"){
+							this.agreementUrl = val.url
+							
+						}
+					})
 				})
 			},
 			
