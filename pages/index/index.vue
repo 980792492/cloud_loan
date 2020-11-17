@@ -216,6 +216,8 @@
 						console.log(res);
 						if (res.retCode === '4001') {
 							uni.navigateTo({
+								// url: '/pages/applycredit/bindback/bindback'
+								
 								url: '/pages/applycredit/basicinfo/basicinfo'
 							})
 

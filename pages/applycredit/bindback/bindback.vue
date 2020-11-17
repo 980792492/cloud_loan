@@ -111,21 +111,21 @@
 	import uniSteps from '@/components/uni-steps/uni-steps.vue'
 	import uniFormitem from "@/components/uni-form-item/uni-form-item.vue"
 	import api from '@/api/apply/index.js'
-	
+
 	import utils from '@/utils/utils'
-	
+
 
 	export default {
 		data() {
 			return {
-				name: '',				//持卡人名
-				bankCard: '',			//银行卡号
-				bankName: '',			//银行名称
-				phone: '',             //手机号
-				verificationCode: '',  //验证码code
-				bankCode:'', //银行编码
+				name: '', //持卡人名
+				bankCard: '', //银行卡号
+				bankName: '', //银行名称
+				phone: '', //手机号
+				verificationCode: '', //验证码code
+				bankCode: '', //银行编码
 				bankData: [
-					
+
 				],
 				// {
 				// 	text: '平安银行',
@@ -201,26 +201,26 @@
 			uniSteps,
 			uniFormitem
 		},
-		onLoad(){
+		onLoad() {
 			this.getBandData();
 		},
 		methods: {
-			
-			
+
+
 			// 获取银行数据
-			getBandData(){
-				
-			
-					const consumerId = uni.getStorageSync('consumerId')
-					api.incomeData({
-						paramsType: 'banktype'
-					}).then(res => {
-						this.bankData = res.data;;
-						// this.incomeData = res.data;
-						console.log(res);
-						console.log(777777);
-					})
-				
+			getBandData() {
+
+
+				const consumerId = uni.getStorageSync('consumerId')
+				api.incomeData({
+					paramsType: 'banktype'
+				}).then(res => {
+					this.bankData = res.data;;
+					// this.incomeData = res.data;
+					console.log(res);
+					console.log(777777);
+				})
+
 			},
 
 			// 选择银行卡
@@ -232,153 +232,163 @@
 				this.$refs.bankpop.close();
 
 			},
-			
+
 			// 选择银行卡名称
-			selectBankTap(text,code){
+			selectBankTap(text, code) {
 				this.bankName = text;
 				this.bankCode = code;
 				this.$refs.bankpop.close();
 			},
-			
+
 			// 获取验证码
-			getVerificationCode(){
-				if(!this.name){
+			getVerificationCode() {
+				if (!this.name) {
 					uni.showToast({
-						icon:'none',
-					    title: '请输入持卡人姓名',
+						icon: 'none',
+						title: '请输入持卡人姓名',
 					});
 					return false;
 				}
-				if(!this.bankCard){
+				if (!this.bankCard) {
 					uni.showToast({
-						icon:'none',
-					    title: '请输入银行卡号',
+						icon: 'none',
+						title: '请输入银行卡号',
 					});
 					return false;
 				}
-				if(!this.bankName){
+				if (!this.bankName) {
 					uni.showToast({
-						icon:'none',
-					    title: '请选择所属银行',
+						icon: 'none',
+						title: '请选择所属银行',
 					});
 					return false;
 				}
-				
-				if(!this.phone){
+
+				if (!this.phone) {
 					uni.showToast({
-						icon:'none',
-					    title: '请输入手机号',
+						icon: 'none',
+						title: '请输入手机号',
 					});
 					return false;
 				}
-				if(!utils.formatMobile(this.phone)){
+				if (!utils.formatMobile(this.phone)) {
 					uni.showToast({
-						icon:'none',
-					    title: '请输入正确格式的手机号码',
+						icon: 'none',
+						title: '请输入正确格式的手机号码',
 					});
 					return false;
-					
+
 				}
-				
-				
+
+
 				const consumerId = uni.getStorageSync('consumerId')
 				let params = {
 					consumerId,
-					bankCode:this.bankCode,
-					cardNo:this.bankCard,
-					bankName:this.bankName,
-					cardMobile:this.phone
+					bankCode: this.bankCode,
+					cardNo: this.bankCard,
+					bankName: this.bankName,
+					cardMobile: this.phone
 				}
-				
+
 				api.bankVerificationCode(params).then(res => {
 					console.log(res);
 					let time = this.time;
 					console.log(3333);
-					
+
 					this.setInterval = setInterval(() => {
 						console.log(4444);
-						if(time === 0){
+						if (time === 0) {
 							// time = 60;
 							this.time = 60;
 							clearTimeout(this.setInterval);
-						}else{
+						} else {
 							time--;
 							this.time = time;
 						}
-						
-						
-					},1000)
+
+
+					}, 1000)
 				})
-				
+
 			},
-			
-			
-			
+
+
+
 			// 绑定银行卡
-			bindBankCardTap(){
+			bindBankCardTap() {
 				const consumerId = uni.getStorageSync('consumerId')
-				
-				api.bindBankCard({consumerId,smsCode: this.verificationCode}).then(res => {
+
+				api.bindBankCard({
+					consumerId,
+					smsCode: this.verificationCode
+				}).then(res => {
 					console.log(res);
-					
-					if(res.retCode === '000000'){
-								
-								this.submit();
-								
+
+					if (res.retCode === '000000') {
+
+						this.submit();
+
 					}
-					
-					
+
+
 				})
-				
-				
-				
+
+
+
 			},
-			
+
 			// 提交申请
-			submit(){
-				
+			submit() {
+
 				const consumerId = uni.getStorageSync('consumerId')
-				
-				api.submitApply({consumerId}).then(res => {
-					if(res.retCode === '000000'){
-								uni.showToast({
-									title: '提交成功'
-								})
-								setTimeout(()=>{
-									this.getCreditExtensionState(); //获取授信状态
-								},2500)
+
+				api.submitApply({
+					consumerId
+				}).then(res => {
+					if (res.retCode === '000000') {
+						uni.showToast({
+							title: '提交成功'
+						})
+						setTimeout(() => {
+							this.getCreditExtensionState(); //获取授信状态
+						}, 2500)
 					}
-					
+
 				})
-				
-				
+
+
 			},
-			
-			getCreditExtensionState(){
+
+			getCreditExtensionState() {
 				const consumerId = uni.getStorageSync('consumerId')
-				
-				api.getCreditExtensionState({consumerId}).then(res => {
+
+				api.getCreditExtensionState({
+					consumerId
+				}).then(res => {
 					console.log(res);
-					let state = res.busiparam.status;
+					let state = res.busiparam.state;
 					let url;
-					if(state === 'approving'){ //审批中
-						url = "/pages/applycredit/applyverdify/applyverdify";
-						
-					}else if(state === 'pass'){ //审核通过
-					url = "/pages/myamount/myamount"
-						
-					}else if(state === 'refuse'){ //审核被拒绝
-						
-					}
-					
-									
+					// if(state === 'approving'){ //审批中
+					// 	url = "/pages/applycredit/applyverdify/applyverdify";
+
+					// }else if(state === 'pass'){ //审核通过
+					// url = "/pages/myamount/myamount"
+
+					// }else if(state === 'refuse'){ //审核被拒绝
+					// 	url = "/pages/myamount/myamount";
+					// }
+
+					url = "/pages/applycredit/applyverdify/applyverdify";
+
+
+
 					uni.navigateTo({
 						url: url
 					})
-						
+
 				})
-				
-			
+
+
 			},
 
 		}
@@ -429,7 +439,7 @@
 
 	.basic-info .forget-pwd1 {
 		color: #ccc;
-		width: 160upx;
+		width: 200upx;
 		font-size: 28upx;
 	}
 
@@ -580,7 +590,7 @@
 
 		overflow-y: scroll;
 		width: 100%;
-		overflow: hidden;
+		/* overflow: hidden; */
 		background: #fff;
 
 	}

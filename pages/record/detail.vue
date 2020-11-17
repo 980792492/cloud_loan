@@ -10,6 +10,7 @@
 				<uni-list-item title="借款总金额" :rightText="data.amount" :showArrow="false" />
 			    <uni-list-item title="借款期限" :rightText="data.periods" :showArrow="false" />
 				<uni-list-item title="借款时间" :rightText="data.periods" :showArrow="false" />
+				<uni-list-item title="借款状态" :rightText="statusTexts[data.orderStatus]" :showArrow="false" />
 				<uni-list-item title="还款方式" rightText="等额本息" :showArrow="false" />
 				<uni-list-item title="合同协议" :showArrow="false">
 					<view slot="right" @click='agreeTap'>
@@ -35,6 +36,36 @@
 				<text style="font-size: 16px;">{{planItem.planRepayAmount/100 + '元'}}</text>
 			</view>
 		</view>
+		
+		<!-- 合同选择 -->
+		<uni-popup ref="agreepop" type="bottom">
+			<view class='bank-pop'>
+				<view class="header">
+					<view></view>
+					<view class="title">
+						<text>合同列表</text>
+					</view>
+					<view class='close-icon' @click="closeAgreePopTap">
+						<image src='../../static/assets/register005.png'></image>
+					</view>
+				</view>
+				<view class="content">
+					<view class="item" v-for='(agreementItem,agreementIndex) in agreementData' :key='agreementIndex' @click='selectAgreementTap(agreementItem.url)'>
+					<!-- 	<view class="icon">
+							<image :src='bankItem.paramsDesc'></image>
+						</view> -->
+						<text>{{agreementItem.title}}</text>
+					</view>
+		
+				</view>
+		
+			</view>
+		</uni-popup>
+		
+		
+		
+		
+		
 	</view>
 </template>
 
@@ -49,6 +80,8 @@
 		components: {uniList,uniListItem,uniPopup,uniIcons},
 		data(){
 			return {
+				statusTexts:['待生成第三方订单','待提交','放款中','放款成功','放款失败','已取消','已结清','已逾期','还款中','','资金匹配中','资金匹配成功','资金匹配失败'],
+			agreementData:[],
 				agreementUrl:'', //合同url
 				data:{},
 				loanOrderId:'', //订单id
@@ -77,6 +110,11 @@
 		},
 		
 		methods: {
+			// 关闭银行卡弹框
+			closeAgreePopTap() {
+				this.$refs.agreepop.close();
+			
+			},
 			
 			getOrderInfo(){
 				const consumerId = uni.getStorageSync('consumerId')
@@ -98,16 +136,27 @@
 			
 			//查看合同
 			agreeTap(){
-				console.log(this.agreementUrl);
-				if(this.agreementUrl){
-					// this.agreementUrl = 'https://www.baidu.com/'
-					let url = encodeURIComponent(this.agreementUrl)
-					console.log(url);
-					console.log(`/pages/webView/index?url=${url}`)
-					uni.navigateTo({
-						url:`/pages/webView/index?url=${url}`
-					})
-				}
+				this.$refs.agreepop.open();
+								
+				// console.log(this.agreementUrl);
+				// if(this.agreementUrl){
+				// 	// this.agreementUrl = 'https://www.baidu.com/'
+				// 	let url = encodeURIComponent(this.agreementUrl)
+				// 	console.log(url);
+				// 	console.log(`/pages/webView/index?url=${url}`)
+				// 	uni.navigateTo({
+				// 		url:`/pages/webView/index?url=${url}`
+				// 	})
+				// }
+			},
+			
+			selectAgreementTap(url){
+				this.$refs.agreepop.close();
+				
+				uni.navigateTo({
+					url:`/pages/webView/index?url=${url}`
+				})
+				
 			},
 			
 			
@@ -125,6 +174,19 @@
 				api.getAgreement(params).then(res => {
 					console.log(7878787878787878)
 					let data = res.busiparam;
+					data = [
+						{
+						      "title": "申请人姓名信息的协议",
+						            "url": "https://www.baidu.com"
+					},
+					{
+						"title": "申请人信息的协议",
+						            "url": "https://www.baidu.com"
+					}
+					]
+					
+					this.agreementData = data;
+					return false;
 					data.forEach(val  => {
 						if(val.title === "借款合同"){
 							this.agreementUrl = val.url
@@ -228,5 +290,76 @@
 			font-weight 500
 		}
 		
+	}
+	
+	/* 银行数据弹框 */
+	.bank-pop {
+		height: 812upx;
+		background: #fff;
+	}
+	
+	.bank-pop .header {
+		padding: 24upx;
+		width: 100%;
+		height: 112upx;
+		display: flex;
+		box-sizing: border-box;
+		justify-content: space-between;
+		align-items: center;
+	}
+	
+	.bank-pop .header .title text {
+		font-size: 32upx;
+		color: #333;
+	
+	}
+	
+	.bank-pop .header .close-icon {
+		width: 48upx;
+		height: 48upx;
+	}
+	
+	.bank-pop .header .close-icon image {
+		width: 48upx;
+		height: 48upx;
+	}
+	
+	.bank-pop .content {
+		height: 700upx;
+	
+		overflow-y: scroll;
+		width: 100%;
+		/* overflow: hidden; */
+		background: #fff;
+	
+	}
+	
+	.bank-pop .content .item {
+		width: 100%;
+		height: 88upx;
+		display: flex;
+		align-items: center;
+		border-top: 1upx solid #eee;
+	
+	}
+	
+	.bank-pop .content .item .icon {
+		width: 28upx;
+		height: 28upx;
+		margin-left: 24upx;
+		margin-right: 16upx;
+	
+	}
+	
+	.bank-pop .content .item .icon image {
+		width: 28upx;
+		height: 28upx;
+	}
+	
+	.bank-pop .content .item text {
+		padding-left: 12upx;
+		font-size: 28upx;
+		color: #333;
+		line-height: 88upx;
 	}
 </style>
